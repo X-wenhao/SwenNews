@@ -38,15 +38,23 @@ return
     exist:           //用户名是否已经存在
 }
 
-//用户登录
+//用户注册
 POST /SwenNews/api/v1/user
 {
     username:
+    mail:
     password:
 }
 return
 {
     status: 1/0         //操作结果
+}
+
+//发送认证邮件
+GET /SwenNews/api/v1/mail
+return
+{
+    status:
 }
 
 

@@ -1,6 +1,6 @@
 from flask import Flask
 #from flask_bootstrap import Bootstrap
-#from flask_mail import Mail
+from flask_mail import Mail
 from flask_moment import Moment
 from flask_sqlalchemy import SQLAlchemy
 from .config import Config
@@ -13,7 +13,7 @@ dbdir=os.path.join(basedir,'data.db')
 
 
 #bootstrap = Bootstrap()
-#mail = Mail()
+mail = Mail()
 moment = Moment()
 db = SQLAlchemy()
 
@@ -29,7 +29,7 @@ def create_app():
     Config.init_app(app)
 
     #bootstrap.init_app(app)
-    #mail.init_app(app)
+    mail.init_app(app)
     moment.init_app(app)
     db.init_app(app)
     login_manager.setup_app(app)
@@ -53,3 +53,4 @@ def init_db():
         db.create_all()
         db.session.add(User(username='admin',password='admin'))
         db.session.commit()
+    return app

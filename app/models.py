@@ -16,30 +16,11 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(64), unique=True, index=True)
     #role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
     password_hash = db.Column(db.String(128))
+    mail = db.Column(db.String(128) ,index=True)
     confirmed = db.Column(db.Boolean, default=False)
     news = db.relationship('News', backref='user',
                                 lazy='dynamic')
     
-    '''
-    #name = db.Column(db.String(64))
-    #location = db.Column(db.String(64))
-    #about_me = db.Column(db.Text())
-    #member_since = db.Column(db.DateTime(), default=datetime.utcnow)
-    #last_seen = db.Column(db.DateTime(), default=datetime.utcnow)
-    #avatar_hash = db.Column(db.String(32))
-    #posts = db.relationship('Post', backref='author', lazy='dynamic')
-    #followed = db.relationship('Follow',
-                               foreign_keys=[Follow.follower_id],
-                               backref=db.backref('follower', lazy='joined'),
-                               lazy='dynamic',
-                               cascade='all, delete-orphan')
-    #followers = db.relationship('Follow',
-                                foreign_keys=[Follow.followed_id],
-                                backref=db.backref('followed', lazy='joined'),
-                                lazy='dynamic',
-                                cascade='all, delete-orphan')
-    #comments = db.relationship('Comment', backref='author', lazy='dynamic')
-    '''
 
     def __init__(self, **kwargs):
         super(User, self).__init__(**kwargs)
@@ -54,6 +35,22 @@ class User(UserMixin, db.Model):
 
     def verify_password(self, password):
         return check_password_hash(self.password_hash, password)
+    
+    def generate_confirmation_token(self,expiration=3600):
+        s = Serializer(current_app.config['SECRET_KEY'], expiration)
+        return s.dumps({'confirm':self.id})
+
+    def confirm(self,token):
+        s = Serializer(current_app.config['SECRET_KEY'])
+        try:
+            data = s.loads(token)
+        except:
+            return False 
+        if data.get('confirm') != self.id:
+            return False
+        self.confirmed = True
+        db.session.add(self)
+        return True 
     
     def get_id(self):
         return self.id
@@ -93,4 +90,5 @@ class News(db.Model):
 
     def __repr__(self):
         return '<News %r>' % self.title
+
 

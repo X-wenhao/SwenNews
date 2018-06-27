@@ -15,6 +15,12 @@ class Config:
     # app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD')
    # MAIL_USERNAME = 'as_stranger@126.com'
     #MAIL_PASSWORD = 'test126'
+    MAIL_SERVER = 'smtp.126.com'
+    MAIL_PORT = 465
+    MAIL_USE_SSL = True
+    MAIL_USE_TLS = False
+    MAIL_USERNAME = 'as_stranger@126.com'
+    MAIL_PASSWORD = 'test126'
 
     @staticmethod
     def init_app(app):

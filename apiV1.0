@@ -71,7 +71,7 @@ return
 GET /SwenNews/backend/auth     //检测登录用户是否为管理员用户
 return
 {
-    result:     //用户名暂定为admin
+    status:     //用户名暂定为admin
 }
 
 PUT /SwenNews/backend/news      //check 一个新闻
@@ -81,7 +81,7 @@ PUT /SwenNews/backend/news      //check 一个新闻
 }
 return
 {
-    result:0/1
+    status:0/1
 }
 
 #about news
@@ -96,6 +96,7 @@ return
     1 : {
         id:
         title:
+        news_type:
         user:
         datetime:
     }
@@ -104,7 +105,7 @@ return
     }
 }
 
-GET /SwenNews/api/v1/news    //返回一个新闻
+GET /SwenNews/api/v1/news/news    //返回一个新闻
 {
     id：
 }
@@ -113,6 +114,20 @@ return
     id:
     title:
     content:
+    news_type:
     user:
     datetime:
+}
+
+POST /SwenNews/api/v1/news/news    //创建一个新闻    //后台记得添加datetime
+{
+    id:
+    title:
+    content:
+    news_type:
+    user:
+}
+return
+{
+    status：
 }

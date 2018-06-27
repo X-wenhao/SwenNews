@@ -31,4 +31,88 @@ return
 
 
 #about register
+GET /SwenNews/api/v1/user
+return
+{
+    status: 1/0         //操作结果
+    exist:           //用户名是否已经存在
+}
 
+//用户登录
+POST /SwenNews/api/v1/user
+{
+    username:
+    password:
+}
+return
+{
+    status: 1/0         //操作结果
+}
+
+
+
+#about backend
+
+GET /SwenNews/backend/news     //获取所有未check的news
+return
+{
+    1 : {
+        id:
+        title:
+        content:
+        user:
+        datetime:
+    }
+    2 : {
+
+    }
+}
+
+GET /SwenNews/backend/auth     //检测登录用户是否为管理员用户
+return
+{
+    result:     //用户名暂定为admin
+}
+
+PUT /SwenNews/backend/news      //check 一个新闻
+{
+    id:
+    checked: 0/1
+}
+return
+{
+    result:0/1
+}
+
+#about news
+GET /SwenNews/api/v1/news    //返回新闻
+{
+    news_type:    //规定 type 或者 'all'
+    time:    //0表示无限制，1表示最新  
+    hot：   //0表示无限制，1表示最热
+}
+return
+{
+    1 : {
+        id:
+        title:
+        user:
+        datetime:
+    }
+    2 : {
+
+    }
+}
+
+GET /SwenNews/api/v1/news    //返回一个新闻
+{
+    id：
+}
+return
+{
+    id:
+    title:
+    content:
+    user:
+    datetime:
+}

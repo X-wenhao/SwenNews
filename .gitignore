@@ -49,3 +49,4 @@ cookie
 
 .idea/
 *.out
+*.sqlite

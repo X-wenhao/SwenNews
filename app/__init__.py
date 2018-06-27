@@ -10,7 +10,7 @@ from flask_login import LoginManager
 basedir = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 
 dbdir=os.path.join(basedir,'data.db')
-print(dbdir)
+
 
 #bootstrap = Bootstrap()
 #mail = Mail()
@@ -44,3 +44,12 @@ def create_app():
     #app.register_blueprint(pair_blueprint)
 
     return app
+
+
+def init_db():
+    app=create_app()
+    with app.app_context():
+        from app.models import User,News
+        db.create_all()
+        db.session.add(User(username='admin',password='admin'))
+        db.session.commit()

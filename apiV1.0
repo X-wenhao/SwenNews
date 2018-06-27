@@ -60,7 +60,7 @@ return
         id:
         title:
         content:
-        user:
+        username:
         datetime:
     }
     2 : {
@@ -97,7 +97,7 @@ return
         id:
         title:
         news_type:
-        user:
+        username:
         datetime:
     }
     2 : {
@@ -105,27 +105,23 @@ return
     }
 }
 
-GET /SwenNews/api/v1/news/news    //返回一个新闻
-{
-    id：
-}
+GET /SwenNews/api/v1/news/<id>   //返回一个新闻   //id为可变参数
 return
 {
     id:
     title:
     content:
     news_type:
-    user:
+    username:
     datetime:
 }
 
-POST /SwenNews/api/v1/news/news    //创建一个新闻    //后台记得添加datetime
+POST /SwenNews/api/v1/news/news    //创建一个新闻    //后台记得添加datetime与当前userid
 {
     id:
     title:
     content:
     news_type:
-    user:
 }
 return
 {

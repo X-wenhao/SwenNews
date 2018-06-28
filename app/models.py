@@ -1,3 +1,4 @@
+# -*- coding=utf-8 -*-
 from datetime import datetime
 import hashlib
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -71,8 +72,6 @@ login_manager.anonymous_user = AnonymousUser
 @login_manager.user_loader
 def load_user(user_id):
     """Load the user's info."""
-
-    from models import User
     return User.query.filter_by(id=user_id).first()
 
 class News(db.Model):

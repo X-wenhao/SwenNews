@@ -8,16 +8,19 @@ from ..models import User
 @auth.route('/unconfirmed')
 def unconfirmed():
     if current_user.is_anonymous or current_user.confirmed:
+        return 'no need'
         return redirect(url_for('main.index'))
+    return 'unconfirmed'
     return render_template('auth/unconfirmed.html')
 
 @auth.route('/confirm/<token>')
 #@login_required
 def confirm(token):
     if current_user.confirmed:
-        return redirect(url_for('main.index'))
+        return 'confirm success'
     if current_user.confirm(token):
         flash('认证成功')
     else:
         flash('认证失败,请重新登录并认证')
-    return redirect(url_for('auth.login')) 
+    return 'confirm failed please re login'
+    #return redirect(url_for('auth.login')) 

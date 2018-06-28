@@ -29,19 +29,17 @@ def auth_api_session_get():
 @auth.route("/SwenNews/api/v1/session",methods=['POST'])
 def auth_api_session_post():
     args = request.get_json()
+    #print(args)
     for key in ['username', 'password']:
         if not args.get(key):
             return jsonify({'status': 0})
 
     user=User.query.filter_by(username=args['username']).first() 
     if user is None or not user.verify_password(args['password']):
-        return jsonify({'status': 0})
-    user=User.query.filter_by(mail=args['username']).first() 
-    if user is None or not user.verify_password(args['password']):
-        return jsonify({'status': 0})
+        user=User.query.filter_by(mail=args['username']).first() 
+        if user is None or not user.verify_password(args['password']):
+            return jsonify({'status': 0})
     login_user(user)
-    print(user)
-    print(current_user)
     return jsonify({'status': 1})
 
 
@@ -54,15 +52,13 @@ def auth_api_session_delete():
 
 @auth.route("/SwenNews/api/v1/user",methods=['GET'])
 def auth_api_user_get():
-    args = request.get_json()
+    args = request.args
     for key in ['username']:
         if not args.get(key):
             return jsonify({'status': 0})
 
     re={'status': 1,'exist':1}
-    if  User.query.filter_by(username=args['username']).first() is None:
-        re['exist']=0
-    if  User.query.filter_by(mail=args['username']).first() is None:
+    if  User.query.filter_by(username=args['username']).first() is None and User.query.filter_by(mail=args['username']).first() is None:
         re['exist']=0
     return jsonify(re)
 
@@ -70,25 +66,33 @@ def auth_api_user_get():
 @auth.route("/SwenNews/api/v1/user",methods=['POST'])
 def auth_api_user_post():
     args = request.get_json()
+    print(args)
     for key in ['username', 'password','mail']:
         if not args.get(key):
+            print("args error")
             return jsonify({'status': 0})
     
     user=User.query.filter_by(username=args['username']).first() 
-    if user is not None:
+    if User.query.filter_by(username=args['username']).first()  is not None or \
+            User.query.filter_by(mail=args['mail']).first()  is not None:
+        print("user exist")
         return jsonify({'status': 0})
-    db.session.add(User(username=args['username'],\
+    user=User(username=args['username'],\
                                 password=args['password'],
                                 mail=args['mail']
-                                ))
+                                )
+    db.session.add(user)
     db.session.commit()
     login_user(user)
     try:
         token = current_user.generate_confirmation_token()  
         send_email(current_user.mail, 'Confirm Your Account: ',
-                url_for('auth.comform',token))
+                url_for('auth.confirm',token=token,_external=True))
         return jsonify({"status":1})
     except:
+        print('fail to send mail')
+        db.session.delete(user)
+        db.session.commit()
         return jsonify({"status":0})
     return jsonify({'status': 1})
 
@@ -98,7 +102,7 @@ def auth_api_mail_get():
     try:
         token = current_user.generate_confirmation_token()  
         send_email(current_user.mail, 'Confirm Your Account: ',
-                url_for('auth.comform',token))
+                url_for('auth.comfirm',token=token,_external=True))
         return jsonify({"status":1})
     except:
         return jsonify({"status":0})

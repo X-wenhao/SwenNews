@@ -36,6 +36,9 @@ def auth_api_session_post():
     user=User.query.filter_by(username=args['username']).first() 
     if user is None or not user.verify_password(args['password']):
         return jsonify({'status': 0})
+    user=User.query.filter_by(mail=args['username']).first() 
+    if user is None or not user.verify_password(args['password']):
+        return jsonify({'status': 0})
     login_user(user)
     print(user)
     print(current_user)
@@ -97,3 +100,4 @@ def auth_api_mail_get():
         return jsonify({"status":1})
     except:
         return jsonify({"status":0})
+

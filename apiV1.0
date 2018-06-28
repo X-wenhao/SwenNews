@@ -32,6 +32,9 @@ return
 
 #about register
 GET /SwenNews/api/v1/user
+{
+    username:       //用户名或者邮箱
+}
 return
 {
     status: 1/0         //操作结果

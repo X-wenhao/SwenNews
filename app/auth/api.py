@@ -62,6 +62,8 @@ def auth_api_user_get():
     re={'status': 1,'exist':1}
     if  User.query.filter_by(username=args['username']).first() is None:
         re['exist']=0
+    if  User.query.filter_by(mail=args['username']).first() is None:
+        re['exist']=0
     return jsonify(re)
 
 

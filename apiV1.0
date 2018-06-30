@@ -10,6 +10,7 @@ return
     id:           //当前用户
     username:
     mail:
+    avatar:       //当前用户头像url
 }
 
 //用户登录

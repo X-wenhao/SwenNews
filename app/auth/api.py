@@ -24,11 +24,15 @@ def auth_api_session_get():
     re['id']=current_user.id
     re['username']=current_user.username
     re['mail']=current_user.mail
+    
     if  re['id'] is None:
         re['id']=-1 
         re['status']=0
         re['error_msg']='can not get info of current user'
         return jsonify(re),403
+    re['avatar']="/static/user/avatar/"+str(re['id'])+'.jpg'
+    if  not os.path.isfile(re['avatar']):    
+        re['avatar']="/static/user/avatar/0.jpg"
     return jsonify(re),200
 
 
@@ -150,7 +154,7 @@ def auth_api_user_avatar_put():
         im = Image.open(file)
         im.resize(size)
         if file and allowed_file(file.filename):
-            filename = str(current_user.id) + '.' + file.filename.rsplit('.', 1)[1]
+            filename = str(current_user.id) + '.jpg' 
             im.save(os.path.join(auth.static_folder,"user/avatar",filename))
         return jsonify({"status":1}),205
     except:

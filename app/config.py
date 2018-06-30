@@ -23,6 +23,8 @@ class Config:
     MAIL_USERNAME = 'as_stranger@126.com'
     MAIL_PASSWORD = 'test126'
 
+    AVATAR_FOLDER=os.path.join(basedir,"static/user/avatar")
+
     @staticmethod
     def init_app(app):
         pass

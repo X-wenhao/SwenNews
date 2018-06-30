@@ -1,11 +1,15 @@
+PS:: 若status为0，则返回有error_msg字段
+
 #about login
 
-//获取当前登录用户id
+//获取当前登录用户信息（用户id，用户名，邮箱）
 GET /SwenNews/api/v1/session
 return
 {
     status: 1/0         //操作结果
-    user_id:           //当前用户id  ,未登陆为-1
+    id:           //当前用户
+    username:
+    mail:
 }
 
 //用户登录
@@ -31,14 +35,11 @@ return
 
 
 #about register
-GET /SwenNews/api/v1/user
-{
-    username:       //用户名或者邮箱
-}
+GET /SwenNews/api/v1/user?username=      // username为用户名或邮箱
 return
 {
     status: 1/0         //操作结果
-    exist:           //用户名是否已经存在
+    exist:           //用户是否已经存在
 }
 
 //用户注册
@@ -53,17 +54,45 @@ return
     status: 1/0         //操作结果
 }
 
-//发送认证邮件
-GET /SwenNews/api/v1/mail
+#about user
+修改用户信息（用户名）
+PUT /SwenNews/api/v1/user
+{
+    username:         //若不需要修改则不加该字段
+}
+return 
+{
+    status:
+}
+
+修改用户信息（密码）   ps：需显示调用发送认证邮件
+PUT /SwenNews/api/v1/user/password
+{
+    password:
+    auth_code:        
+}
+return 
+{
+    status:
+}
+
+修改用户信息（头像）
+PUT /SwenNews/api/v1/user/avatar
+return 
+{
+    status:
+}
+
+
+//发送认证邮件    type='confirm'为注册时认证，此时无需调用    type='auth_code' 为修改密码时调用，此时需要显示调用
+GET /SwenNews/api/v1/mail?type=
 return
 {
     status:
 }
 
 
-
 #about backend
-
 GET /SwenNews/backend/news     //获取所有未check的news
 return
 {
@@ -96,12 +125,7 @@ return
 }
 
 #about news
-GET /SwenNews/api/v1/news    //返回新闻
-{
-    news_type:    //规定 type 或者 'all'
-    time:    //0表示无限制，1表示最新  
-    hot：   //0表示无限制，1表示最热
-}
+GET /SwenNews/api/v1/news?new_type= & time= & hot=    //返回新闻  规定 type 或者 'all'; time:0表示无限制,1表示最新; hot:0表示无限制，1表示最热
 return
 {
     1 : {
@@ -127,14 +151,27 @@ return
     datetime:
 }
 
-POST /SwenNews/api/v1/news/news    //创建一个新闻    //后台记得添加datetime与当前userid
+POST /SwenNews/api/v1/news/news         //创建一个新闻
 {
-    id:
-    title:
-    content:
-    news_type:
+    title：
+    content：
+    news_type：                 //后台记得添加datetime与当前userid
 }
 return
 {
     status：
+}
+
+GET /SwenNews/api/v1/news/list       //返回用户创建的所有新闻
+return
+{
+    1 : {
+        id:
+        title:
+        news_type:
+        datetime:
+    }
+    2 : {
+
+    }
 }

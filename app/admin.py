@@ -9,11 +9,11 @@ def init_admin():
     admin.add_view(News_v(db.session))    
 
 class News_v(ModelView):
-    '''
+    
     def is_accessible(self):
-        return current_user.is_authenticated() and current_user.username=='admin'
-    '''
-    can_delete=False
+        return current_user.is_authenticated and current_user.username=='admin'
+    
+    can_delete=True
     can_create=False
     column_formatters={
         'User':lambda v, c, m, p: m.username

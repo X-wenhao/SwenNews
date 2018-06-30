@@ -48,8 +48,8 @@ def create_app():
     from .auth import auth as auth_blueprint
     app.register_blueprint(auth_blueprint)
 
-    #from .pair import pair as pair_blueprint
-    #app.register_blueprint(pair_blueprint)
+    from .news import news as news_blueprint
+    app.register_blueprint(news_blueprint)
 
     return app
 

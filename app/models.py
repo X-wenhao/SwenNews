@@ -81,7 +81,7 @@ class News(db.Model):
     content=db.Column(db.Text)
     news_type=db.Column(db.String(10), index=True)
     
-    date=db.Column(db.DateTime)
+    date=db.Column(db.DateTime,default=datetime.now())
     hit_count=db.Column(db.Integer,default=0)
     checked=db.Column(db.Integer,default=-1)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))

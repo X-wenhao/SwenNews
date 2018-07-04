@@ -1,0 +1,32 @@
+﻿<!DOCTYPE html>
+<head>
+	<meta charset="utf-8">
+    <title>login</title>
+    <script src="../static/js/jquery-3.3.1.js"></script>
+	<link rel="stylesheet" type="text/css" href="../static/css/style.css" />
+    <script type="text/javascript" src="../static/js/login.js"></script>
+</head>
+<body>
+    <div class="main">
+    	<div class="mainin">
+            <div class="mainin1">
+            	<ul>
+                    <li><img class="swen" src="../static/images/SwenNews.png"></li>
+                	<li><input name="loginName" type="text" id="loginName" placeholder="用户名/邮箱" class="SearchKeyword"></li>
+                    <li><input type="password" name="Password" id="Password" placeholder="密码" class="SearchKeyword2"></li>
+                    <li></li>
+                    <li><button class="tijiao" onclick="signIn(this.form)" id="signIn">登录</button></li>
+                    <li></li>
+                    <li><span class="zhuce">没有账户？<a href="register.html">注册</a></span></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+<img src="../static/images/loading.gif" id="loading" style=" display:none;position:absolute;" />
+<div id="POPLoading" class="cssPOPLoading">
+    <div style=" height:110px; border-bottom:1px solid #9a9a9a">
+        <div class="showMessge"></div>
+    </div>
+</div>
+</body>
+</html>

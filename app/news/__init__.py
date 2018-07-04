@@ -1,5 +1,5 @@
 from flask import Blueprint
 
-news = Blueprint('news', __name__)
+snews = Blueprint('snews', __name__)
 
-from . import api
+from . import api,views

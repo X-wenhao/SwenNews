@@ -48,7 +48,7 @@ def create_app():
     from .auth import auth as auth_blueprint
     app.register_blueprint(auth_blueprint)
 
-    from .news import news as news_blueprint
+    from .news import snews as news_blueprint
     app.register_blueprint(news_blueprint)
 
     return app
@@ -62,3 +62,8 @@ def init_db():
         db.session.add(User(username='admin',password='admin'))
         db.session.commit()
     return app
+
+
+
+if __name__=="__main__":
+    app.run(host='127.0.0.1',port=8080,threaded=True,debug=True)

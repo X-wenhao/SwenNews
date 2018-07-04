@@ -126,12 +126,14 @@ return
 }
 
 #about news
-GET /SwenNews/api/v1/news?new_type= & time= & hot=    //返回新闻  规定 type 或者 'all'; time:0表示无限制,1表示最新; hot:0表示无限制，1表示最热
+GET /SwenNews/api/v1/news?page_num=&news_type= & time= & hot=    //返回新闻  规定 type 或者 'all'; time:0表示无限制,1表示最新; hot:0表示无限制，1表示最热
 return
 {
+    status: 0/1
     1 : {
         id:
         title:
+        content:
         news_type:
         username:
         datetime:

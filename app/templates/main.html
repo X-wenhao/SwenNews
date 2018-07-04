@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="../static/css/main_style.css" />
+    <script src="../static/js/jquery-3.3.1.js"></script>
+
+    <script type="text/javascript" src="../static/js/main.js"></script>
+    <script type="text/javascript" src="../static/js/jquery.nicescroll.js"></script>
+    <script type="text/javascript" src="../static/js/jquery.nicescroll.min.js"></script>
+    <script type="text/javascript" src="../static/js/noframework.js"></script>
+    <script type="text/javascript" src="../static/js/zepto.js"></script>
+    <script type="text/javascript" src="../static/js/jquery-zepto-fn-extension.js"></script>
+</head>
+<body>
+<div class="main">
+    <div class="top">
+        <img id="swen_news" src="../static/images/SwenNews.png" class="swen-news" onclick="swen_news_click()">
+        <span class="newest" onmouseover="newest_mouse_over()" onmouseout="newest_mouse_out()" onmousedown="newest_click()">最新新闻</span>
+        <span class="hot" onmouseover="hot_mouse_over()" onmouseout="hot_mouse_out()" onmousedown="hot_click()">热门新闻</span>
+        <span class="tagged" onmouseover="tagged_mouse_over()" onmouseout="tagged_mouse_out()" onmousedown="tagged_click()">栏目新闻</span>
+        <img src="../static/images/user.png" class="user">
+        <div class="panel" >
+            <ul>
+                <li><span class="me" onmousedown="user_center_click()">用户中心</span> </li>
+                <li><span class="my_news" onmousedown="my_news_click()">我的新闻</span> </li>
+                <li><span class="exit">退出登录</span> </li>
+            </ul>
+        </div>
+        <div class="line"></div>
+    </div>
+    <div class="tags" >
+        <ul class="tag_ul">
+            <li class="tag_li"><span class="tags_t" id="tags_t_1">时政</span></li>
+            <li class="tag_li"><span class="tags_t" id="tags_t_2">科技</span></li>
+            <li class="tag_li"><span class="tags_t" id="tags_t_3">娱乐</span></li>
+            <li class="tag_li"><span class="tags_t" id="tags_t_4">游戏</span></li>
+            <li class="tag_li"><span class="tags_t" id="tags_t_5">体育</span></li>
+            <li class="tag_li"><span class="tags_t" id="tags_t_6">财经</span></li>
+        </ul>
+    </div>
+    <div class="main_in_main">
+        <ul class="news_block_ul">
+        </ul>
+        <div class="change_page" >
+            <img src="../static/images/last_page.png" class="last_page_pic" onclick="last_page_click()">
+            <img src="../static/images/next_page.png" class="next_page_pic" onclick="next_page_click()">
+        </div>
+    </div>
+    <img src="../static/images/navbtn.png" class="new" name="new" id="new" onmousedown="create_news()">
+    <div class="create_news">
+        <form class="create_form">
+            <ul class="create_ul">
+                <li class="create_title" >创建属于你的新闻</li>
+                <li><input name="loginName" type="text" id="title" placeholder="新闻标题" class="news_title"></li>
+                <li> <div class="tag">
+                    <span class="tag_text">新闻类型</span>
+                    <div class="three_points">
+                        <img src="../static/images/three_points.png" >
+                    </div>
+                    <div class="tag_panel">
+                        <ul>
+                            <li><span class="tag_sel" id="tag_1" onmousedown="tag_1_click()">时政</span> </li>
+                            <li><span class="tag_sel" id="tag_2" onmousedown="tag_2_click()">科技</span> </li>
+                            <li><span class="tag_sel" id="tag_3" onmousedown="tag_3_click()">娱乐</span> </li>
+                            <li><span class="tag_sel" id="tag_4" onmousedown="tag_4_click()">游戏</span> </li>
+                            <li><span class="tag_sel" id="tag_5" onmousedown="tag_5_click()">体育</span> </li>
+                            <li><span class="tag_sel" id="tag_6" onmousedown="tag_6_click()">财经</span> </li>
+                        </ul>
+                    </div>
+                </div>
+                </li>
+                <!--<li ><input name="loginName" type="text" placeholder="标题" class="tag"></li>-->
+                <li><textarea rows="3" cols="20" class="news_content" placeholder="正文" > </textarea></li>
+            </ul>
+        </form>
+        <div class="create_confirm" onmousedown="create_confirm()">
+        </div>
+    </div>
+    <div class="shelter" onclick="shelter_click()"></div>
+</div>
+</body>
+</html>

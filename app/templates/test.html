@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>判断div滑到底部的代码</title>
+    <script type="text/javascript" src="jquery-3.1.0.min.js"></script>
+    <style type="text/css">
+        #scrollTest{
+            width:100px;
+            height:100px;
+            overflow-y: auto;//当div中y方向的内容溢出时，y轴分别显示滚动条
+        border:1px solid red;
+        }
+    </style>
+</head>
+<body>
+<div id="scrollTest">
+    <table>
+        <tr>
+            <td>111</td>
+            <td>222</td>
+        </tr>
+        <tr>
+            <td>111</td>
+            <td>222</td>
+        </tr>
+        <tr>
+            <td>111</td>
+            <td>222</td>
+        </tr>
+        <tr>
+            <td>111</td>
+            <td>222</td>
+        </tr>
+        <tr>
+            <td>111</td>
+            <td>222</td>
+        </tr>
+        <tr>
+            <td>111</td>
+            <td>222</td>
+        </tr>
+        <tr>
+            <td>111</td>
+            <td>222</td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>
+<!--//事先得引入jQuery文件-->
+<script type="text/javascript">
+    $("#scrollTest").scroll(function(){
+        var h = $(this).height();//div可视区域的高度
+        var sh = $(this)[0].scrollHeight;//滚动的高度，$(this)指代jQuery对象，而$(this)[0]指代的是dom节点
+        var st =$(this)[0].scrollTop;//滚动条的高度，即滚动条的当前位置到div顶部的距离
+        if(h+st>=sh){
+            //上面的代码是判断滚动条滑到底部的代码
+            //alert("滑到底部了");
+            $("#scrollTest").append(111+"<br>");//滚动条滑到底部时，只要继续滚动滚动条，就会触发这条代码.一直滑动滚动条，就一直执行这条代码。
+        }
+    })
+</script>

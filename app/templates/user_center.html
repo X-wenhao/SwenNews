@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="../static/css/user_center_style.css" />
+    <script src="../static/js/jquery-3.3.1.js"></script>
+    <script type="text/javascript" src="../static/js/jquery.nicescroll.js"></script>
+    <script type="text/javascript" src="../static/js/jquery.nicescroll.min.js"></script>
+    <script type="text/javascript" src="../static/js/user_center.js"></script>
+</head>
+<body>
+<div class="main">
+    <div class="top">
+        <img src="../static/images/SwenNews.png" class="swen-news" onclick="swen_news_click()">
+        <img src="../static/images/user.png" class="user">
+        <div class="panel" >
+            <ul>
+                <li><span class="me" onmousedown="user_center_click()">用户中心</span> </li>
+                <li><span class="my_new" >我的新闻</span> </li>
+                <li><span class="exit" >退出登录</span> </li>
+            </ul>
+        </div>
+    </div>
+    <div class="main_top">
+        <div class="picture_frame"></div>
+        <span class="name_user">用户名</span>
+        <span class="email_user">邮箱</span>
+        <span class="edit" onclick="edit_info()">编辑个人资料</span>
+    </div>
+    <div class="main_in">
+        <div class="main_in_top">
+            <span class="my_news" onmouseover="mynews_mouse_cover()" onmouseout="mynews_mouse_out()" onmousedown="mynews_mouse_click()">我的新闻</span>
+            <span class="my_favor" onmouseover="exit_mouse_cover()" onmouseout="exit_mouse_out()" onmousedown="exit_mouse_click()">我的收藏</span>
+        </div>
+        <div style="position: absolute;margin-left:3px;margin-top:81px;width: 1189px;height: 1px; )" class="long_line"></div>
+        <!-- <ul class="list">
+             <li>新闻1</li>
+             <li>新闻2</li>
+         </ul>-->
+    </div>
+    <div class="info_edit">
+        <div class="head_pic" ></div>
+        <image class="user_image" src="../static/images/user.png" id="user_image"></image>
+        <image class="edit_image" src="../static/images/edit_pic_button.png"></image>
+        <span class="edit_title">编辑资料</span>
+        <input class="user_name" type="text"  placeholder="用户名" >
+        <input class="user_email" type="text"  placeholder="邮箱">
+
+        <input type="file" class="edit_pic_btn" onchange="previewHandle(this)">
+        <image src="../static/images/keep_data.png" class="keep_data_btn" onmousedown="keep_data()" ></image>
+    </div>
+    <div class="shelter_user_center"></div>
+</div>
+</body>
+</html>

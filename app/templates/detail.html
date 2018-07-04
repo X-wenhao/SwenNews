@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="../static/css/detail_style.css" />
+    <script src="../static/js/jquery-3.3.1.js"></script>
+    <script type="text/javascript" src="../static/js/jquery.nicescroll.js"></script>
+    <script type="text/javascript" src="../static/js/jquery.nicescroll.min.js"></script>
+    <script type="text/javascript" src="../static/js/detail.js"></script>
+</head>
+<body>
+<div class="main">
+    <div class="top">
+        <img src="../static/images/SwenNews.png" class="swen-news" onclick="swen_news_click()">
+        <span class="newest" onmouseover="newest_mouse_over()" onmouseout="newest_mouse_out()" onmousedown="newest_click()">最新新闻</span>
+        <span class="hot" onmouseover="hot_mouse_over()" onmouseout="hot_mouse_out()" onmousedown="hot_click()">热门新闻</span>
+        <span class="tagged" onmouseover="tagged_mouse_over()" onmouseout="tagged_mouse_out()" onmousedown="tagged_click()">栏目新闻</span>
+        <img src="../static/images/user.png" class="user">
+        <div class="panel" >
+            <ul>
+                <li><span class="me">用户中心</span> </li>
+                <li><span class="my_news">我的新闻</span> </li>
+                <li><span class="exit">退出登录</span> </li>
+            </ul>
+        </div>
+    </div>
+    <div class="main_in_main" >
+         <!--<img class="main_block" id="main_block_1" src="../static/images/newsbg.png">-->
+        <img class="main_block" id="main_block_1" src="../static/images/newsbg.png">
+    </div>
+</div>
+</body>
+</html>

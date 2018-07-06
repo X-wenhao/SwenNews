@@ -11,6 +11,7 @@ import os,random
 
 @auth.before_app_request
 def before_request():
+    print(request.endpoint)
     if current_user.is_authenticated \
             and not current_user.confirmed \
             and request.endpoint[:5] != 'auth.' \
@@ -20,6 +21,8 @@ def before_request():
 @auth.route("/SwenNews/api/v1/session",methods=['GET'])
 #@login_required
 def auth_api_session_get():
+    if not current_user.is_authenticated:
+        return jsonify({"status":0})
     re={'status': 1}
     re['id']=current_user.id
     re['username']=current_user.username
@@ -39,7 +42,7 @@ def auth_api_session_get():
 @auth.route("/SwenNews/api/v1/session",methods=['POST'])
 def auth_api_session_post():
     args = request.get_json()
-    #print(args)
+    print(args)
     re={'status': 0}
     for key in ['username', 'password']:
         if not args.get(key):
@@ -99,10 +102,9 @@ def auth_api_user_post():
                                 )
     db.session.add(user)
     db.session.commit()
-    login_user(user)
     try:
-        token = current_user.generate_confirmation_token()  
-        send_email(current_user.mail, 'Confirm Your Account: ',
+        token = user.generate_confirmation_token()  
+        send_email(user.mail, 'Confirm Your Account: ',
                 url_for('auth.confirm',token=token,_external=True))
         return jsonify({"status":1}),202
     except:
@@ -125,7 +127,7 @@ def auth_api_user_username_put():
     db.session.add(current_user)
     db.session.commit()
     
-    return jsonify({"status":1}),205
+    return jsonify({"status":1}),200
 
 @auth.route("/SwenNews/api/v1/user/password",methods=["PUT"])
 def auth_api_user_password_put():
@@ -156,7 +158,7 @@ def auth_api_user_avatar_put():
         if file and allowed_file(file.filename):
             filename = str(current_user.id) + '.jpg' 
             im.save(os.path.join(auth.static_folder,"user/avatar",filename))
-        return jsonify({"status":1}),205
+        return jsonify({"status":1}),200
     except:
         return jsonify({"status":0,"error_msg":"can not upload avatat"}),500
 

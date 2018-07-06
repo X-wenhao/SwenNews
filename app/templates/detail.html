@@ -1,34 +1,51 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang=en>
 <head>
-    <meta charset="UTF-8">
+    <meta charset=UTF-8>
     <title>Title</title>
-    <link rel="stylesheet" type="text/css" href="../static/css/detail_style.css" />
-    <script src="../static/js/jquery-3.3.1.js"></script>
-    <script type="text/javascript" src="../static/js/jquery.nicescroll.js"></script>
-    <script type="text/javascript" src="../static/js/jquery.nicescroll.min.js"></script>
-    <script type="text/javascript" src="../static/js/detail.js"></script>
+    <link rel=stylesheet type=text/css href=../static/css/detail_style.css />
+    <script src=../static/js/jquery-3.3.1.js></script>
+    <script type=text/javascript src=../static/js/jquery.nicescroll.js></script>
+    <script type=text/javascript src=../static/js/jquery.nicescroll.min.js></script>
+    <script type=text/javascript src=../static/js/detail.js></script>
 </head>
 <body>
-<div class="main">
-    <div class="top">
-        <img src="../static/images/SwenNews.png" class="swen-news" onclick="swen_news_click()">
-        <span class="newest" onmouseover="newest_mouse_over()" onmouseout="newest_mouse_out()" onmousedown="newest_click()">最新新闻</span>
-        <span class="hot" onmouseover="hot_mouse_over()" onmouseout="hot_mouse_out()" onmousedown="hot_click()">热门新闻</span>
-        <span class="tagged" onmouseover="tagged_mouse_over()" onmouseout="tagged_mouse_out()" onmousedown="tagged_click()">栏目新闻</span>
-        <img src="../static/images/user.png" class="user">
-        <div class="panel" >
+<div class=main>
+    <div class=top>
+        <img src=../static/images/SwenNews.png class=swen-news onclick=swen_news_click()>
+        <span class=newest onmouseover=newest_mouse_over() onmouseout=newest_mouse_out() onmousedown=newest_click()>最新新闻</span>
+        <span class=hot onmouseover=hot_mouse_over() onmouseout=hot_mouse_out() onmousedown=hot_click()>热门新闻</span>
+        <span class=tagged onmouseover=tagged_mouse_over() onmouseout=tagged_mouse_out() onmousedown=tagged_click()>栏目新闻</span>
+        <img src=../static/images/user.png class=user>
+        <div class=panel >
             <ul>
-                <li><span class="me">用户中心</span> </li>
-                <li><span class="my_news">我的新闻</span> </li>
-                <li><span class="exit">退出登录</span> </li>
+                <li><span class=me onclick=user_center_click()>用户中心</span> </li>
+                <li><span class=my_news onclick=my_news_click()>我的新闻</span> </li>
+                <li><span class=exit onclick=logout()>退出登录</span> </li>
             </ul>
         </div>
     </div>
-    <div class="main_in_main" >
-         <!--<img class="main_block" id="main_block_1" src="../static/images/newsbg.png">-->
-        <img class="main_block" id="main_block_1" src="../static/images/newsbg.png">
+    <div class=tags >
+        <ul class=tag_ul>
+            <li class=tag_li><span class=tags_t id=tags_t_1 onmousedown=tags_t_1_click() onmouseover=tags_t_1_over() onmouseout=tags_t_1_out()>时政</span></li>
+            <li class=tag_li><span class=tags_t id=tags_t_2 onmousedown=tags_t_2_click() onmouseover=tags_t_2_over() onmouseout=tags_t_2_out()>科技</span></li>
+            <li class=tag_li><span class=tags_t id=tags_t_3 onmousedown=tags_t_3_click() onmouseover=tags_t_3_over() onmouseout=tags_t_3_out()>娱乐</span></li>
+            <li class=tag_li><span class=tags_t id=tags_t_4 onmousedown=tags_t_4_click() onmouseover=tags_t_4_over() onmouseout=tags_t_4_out()>游戏</span></li>
+            <li class=tag_li><span class=tags_t id=tags_t_5 onmousedown=tags_t_5_click() onmouseover=tags_t_5_over() onmouseout=tags_t_5_out()>体育</span></li>
+            <li class=tag_li><span class=tags_t id=tags_t_6 onmousedown=tags_t_6_click() onmouseover=tags_t_6_over() onmouseout=tags_t_6_out()>财经</span></li>
+        </ul>
     </div>
+    <!--<div class=main_in_main >-->
+        <!--<ul>-->
+            <!--<li><span class='news_type'>来自话题：时政</span></li>-->
+            <!--<li class="head_icon_li"><span class='head_icon'></span></li>-->
+            <!--<li class="date_time_pic_li"><span class='date_time_pic'></span></li>-->
+            <!--<li class="user_name_li"><span class='user_name'>一百</span></li>-->
+            <!--<li class="date_time_li"><span class='date_time'>2018-7-5</span></li>-->
+            <!--<li><span class='news_title'>一百又考了一百</span><li>-->
+            <!--<li><span class='news_content'>一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百</span><li>-->
+        <!--</ul>-->
+    <!--</div>-->
 </div>
 </body>
 </html>

@@ -42,7 +42,6 @@ ul li{
     cursor: pointer;
 }
 .newest{
-    background: url("../images/selectedBg.png");
     background-repeat: no-repeat;
     background-position: bottom;
     width: 112px;
@@ -93,11 +92,28 @@ ul li{
     cursor: pointer;
 }
 .new{
-    z-index: 15;
+    width:70px;
+    height:70px;
+    z-index: 9998;
     position: fixed;
     right: 101px;
     bottom: 66px;
     cursor: pointer;
+    border-radius: 55px;
+    /*margin-left: 1269px;*/
+    /*margin-top: 678px;*/
+}
+.new_low{
+    width:70px;
+    height:70px;
+    z-index: 9990;
+    position: fixed;
+    right: 101px;
+    bottom: 66px;
+    cursor: pointer;
+    box-shadow: 0px 7px 11px 1px
+    rgba(0, 0, 0, 0.25);
+    border-radius: 55px;
     /*margin-left: 1269px;*/
     /*margin-top: 678px;*/
 }
@@ -218,7 +234,7 @@ div.panel{
     background-color: #454545;
     opacity: 0.5;
     display: none;
-    z-index: 9997;
+    z-index: 9989;
     width: 100%;
     height: 100%;
     position: fixed;
@@ -402,7 +418,7 @@ input::-webkit-input-placeholder{
 .news_block_author{
     position: absolute;
     margin-top:300px ;
-    margin-left: 28px;
+    margin-left: 150px;
     width: 100px;
     height: 18px;
     font-family: SourceHanSansCN-Normal;
@@ -415,7 +431,7 @@ input::-webkit-input-placeholder{
 }
 .news_block_date{
     position:absolute;
-    margin-left: 134px;
+    margin-left: 20px;
     margin-top: 300px;
     width: 100px;
     height: 18px;
@@ -428,15 +444,15 @@ input::-webkit-input-placeholder{
     color: #878787;
 }
 .head_icon{
-    margin-left: 0px;
+    margin-left: 130px;
     margin-top: 310px;
     position: absolute;
     background: url("../images/head_icon.png");
-    width: 15px;
-    height: 15px;
+    width: 17px;
+    height: 17px;
 }
 .date_time{
-    margin-left: 105px;
+    margin-left: 0px;
     margin-top: 309px;
     position: absolute;
     width: 18px;
@@ -491,6 +507,7 @@ input::-webkit-input-placeholder{
     line-height: 28px;
     letter-spacing: 0px;
     color: #474747;
+    cursor: pointer;
 }
 .line{
     position: absolute;

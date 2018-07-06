@@ -1,25 +1,50 @@
-var selected=1;
-var tag_sel=-1;//-1 未选中，1时政，2科技，3娱乐，4游戏，5体育，6财经
+var selected;
+var tag_sel;//-1 未选中，1时政，2科技，3娱乐，4游戏，5体育，6财经
 var create_flag=false;
 var page=0;
 var load_flag=false;
+var login_flag=false;
+var user_id=-1;
 $(document).ready(function(){
     var num=0;
     var angle=0;
     var slide_flag=false;
     var tag_slide_flag=false;
-    //selected=getParams("seleceted");
-    createNews();
+    get_user_info();
+    page=getParams("page");
+    if(page==null){
+        page=0;
+    }
+    selected=getParams("selected");
+    if(selected==null){
+        selected = 1;
+    }
+    else{
+        selected=parseInt(selected);
+    }
+    set_sel();
+    // switch (selected){
+    //     case 1:getNewestNews(page);
+    //         break;
+    //     case 2:getHotNews(page);
+    //     case 3:
+    // }
+
     $("body").niceScroll({cursorborder:"",cursorcolor:"#9D9D9D",boxzoom:true});
     $(".user").click(function(){
-        if(!slide_flag)
-        {
-            $(".panel").slideDown("fast");
-            slide_flag=true;
+        if(login_flag){
+            if(!slide_flag)
+            {
+                $(".panel").slideDown("fast");
+                slide_flag=true;
+            }
+            else{
+                $(".panel").slideUp("fast");
+                slide_flag=false;
+            }
         }
         else{
-            $(".panel").slideUp("fast");
-            slide_flag=false;
+            window.location.href="login.html"
         }
     });
     $(".three_points").click(function(){
@@ -31,6 +56,88 @@ $(document).ready(function(){
         offset: '25%'
     })
 });
+function get_user_info() {
+    $.ajax({
+        url: '/SwenNews/api/v1/session',
+        type: 'GET',
+        dataType: 'json'
+    })
+        .done(function(data) {
+            if(1==data.status)
+            {
+                login_flag=true;
+                user_id=data.id;
+            }
+        })
+        .fail(function() {
+            console.log("get user information error")
+        })
+}
+function logout() {
+    $.ajax({
+        url: '/SwenNews/api/v1/session',
+        type: 'DELETE',
+        dataType: 'json',
+        contentType: "application/json; charset=utf-8",
+        data: JSON.stringify({"user_id": user_id}),
+    })
+        .done(function(data) {
+            if(1==data.status)
+            {
+                login_flag=false;
+            }
+        })
+        .fail(function() {
+            console.log("log out error")
+        })
+}
+function set_sel() {
+    if(1==selected){
+        $(".newest").css('background-image','url(../static/images/selectedBg.png)')
+        $(".hot").css('background-image','url(../static/images/blank.png)')
+        $(".tagged").css('background-image','url(../static/images/blank.png)')
+        getNewestNews(page);
+    }
+    else if(2==selected){
+        $(".hot").css('background-image','url(../static/images/selectedBg.png)')
+        $(".newest").css('background-image','url(../static/images/blank.png)')
+        $(".tagged").css('background-image','url(../static/images/blank.png)')
+        getHotNews(page);
+    }
+    else{
+        $(".tagged").css('background-image','url(../static/images/selectedBg.png)')
+        $(".hot").css('background-image','url(../static/images/blank.png)')
+        $(".newest").css('background-image','url(../static/images/blank.png)')
+        tag_sel=getParams("tag_sel");
+        if(null==tag_sel){
+            tag_sel=1;
+            document.getElementById("tags_t_1").style.color="#ff6f79";
+            $(".tags").slideToggle("fast");
+        }
+        else{
+            tag_sel=parseInt(tag_sel);
+        }
+        if(1==tag_sel)
+        {
+            getTypeNews(page,'时政');
+        }
+        else if(2==tag_sel){
+            getTypeNews(page,'科技');
+        }
+        else if(3==tag_sel){
+            getTypeNews(page,'娱乐');
+        }
+        else if(4==tag_sel){
+            getTypeNews(page,'游戏');
+        }
+        else if(5==tag_sel){
+            getTypeNews(page,'体育');
+        }
+        else{
+            getTypeNews(page,'财经');
+        }
+    }
+}
 function load(load_flag) {
     if(!load_flag)
     {
@@ -38,22 +145,6 @@ function load(load_flag) {
             top:'-=1000px'
         });
         load_flag=true;
-    }
-    if(1==selected){
-        $(".newest").css('background-image','url(../static/images/selectedBg.png)');
-        $(".hot").css('background-image','url(../static/images/blank.png)');
-        $(".tagged").css('background-image','url(../static/images/blank.png)');
-    }
-    else if(2==selected)
-    {
-        $(".hot").css('background-image','url(../static/images/selectedBg.png)');
-        $(".newest").css('background-image','url(../static/images/blank.png)');
-        $(".tagged").css('background-image','url(../static/images/blank.png)');
-    }
-    else{
-        $(".tagged").css('background-image','url(../static/images/selectedBg.png)');
-        $(".hot").css('background-image','url(../static/images/blank.png)');
-        $(".newest").css('background-image','url(../static/images/blank.png)');
     }
 }
 function main_block_click(newsid) {
@@ -82,7 +173,9 @@ function newest_mouse_out() {
 }
 function newest_click() {
     selected=1;
-
+    page=0;
+    var text="window.location.href=\"main.html?page="+0+"&selected="+selected+"\"";
+    var t=setTimeout(text,0);
     $(".hot").css('background-image','url(../static/images/blank.png)')
     $(".tagged").css('background-image','url(../static/images/blank.png)')
 }
@@ -104,6 +197,9 @@ function hot_mouse_out() {
 }
 function hot_click() {
     selected=2;
+    page=0;
+    var text="window.location.href=\"main.html?page="+0+"&selected="+selected+"\"";
+    var t=setTimeout(text,0);
     $(".newest").css('background-image','url(../static/images/blank.png)')
     $(".tagged").css('background-image','url(../static/images/blank.png)')
 }
@@ -130,14 +226,21 @@ function tags_move_out() {
     }
 }
 function tagged_click() {
-    selected=3
-    $(".newest").css('background-image','url(../static/images/blank.png)')
-    $(".hot").css('background-image','url(../static/images/blank.png)')
+    if(3!=selected){
+        selected=3
+        page=0;
+        var text="window.location.href=\"main.html?page="+0+"&selected="+selected+"\"";
+        var t=setTimeout(text,0);
+        $(".newest").css('background-image','url(../static/images/blank.png)')
+        $(".hot").css('background-image','url(../static/images/blank.png)')
+    }
     $(".tags").slideToggle("fast");
 }
 function create_news() {
+
     if(!create_flag)
     {
+        $(".new").rotate({animateTo: 225});
         $(".shelter").css('display','block');
         $(".create_news").animate({
             top:'+=1013px'
@@ -147,6 +250,7 @@ function create_news() {
     }
     else
     {
+        $(".new").rotate({animateTo: 0});
         $(".shelter").css('display','none');
         $(".create_news").animate({
             top:'-=1013px'
@@ -188,6 +292,155 @@ function init(selected)
 function three_points() {
 
 }
+function tags_t_1_click() {
+    page=0;
+    tag_sel=1;
+    $(".tags").slideToggle("fast");
+    var text="window.location.href=\"main.html?page="+0+"&selected="+3+"&tag_sel="+1+"\"";
+    var t=setTimeout(text,500);
+    $(".tags_t").css('color','#474747');
+    document.getElementById("tags_t_1").style.color="#ff6f79";
+    tag_sel=1;
+}
+function tags_t_2_click() {
+    page=0;
+    tag_sel=2;
+    $(".tags").slideToggle("fast");
+    var text="window.location.href=\"main.html?page="+0+"&selected="+3+"&tag_sel="+2+"\"";
+    var t=setTimeout(text,500);
+    $(".tags_t").css('color','#474747');
+    document.getElementById("tags_t_2").style.color="#ff6f79";
+    tag_sel=2;
+}
+function tags_t_3_click() {
+    page=0;
+    tag_sel=3;
+    $(".tags").slideToggle("fast");
+    var text="window.location.href=\"main.html?page="+0+"&selected="+3+"&tag_sel="+3+"\"";
+    var t=setTimeout(text,500);
+    $(".tags_t").css('color','#474747');
+    document.getElementById("tags_t_3").style.color="#ff6f79";
+    tag_sel=3;
+}
+function tags_t_4_click() {
+    page=0;
+    tag_sel=4;
+    $(".tags").slideToggle("fast");
+    var text="window.location.href=\"main.html?page="+0+"&selected="+3+"&tag_sel="+4+"\"";
+    var t=setTimeout(text,500);
+    $(".tags_t").css('color','#474747');
+    document.getElementById("tags_t_4").style.color="#ff6f79";
+    tag_sel=4;
+}
+function tags_t_5_click() {
+    page=0;
+    tag_sel=5;
+    $(".tags").slideToggle("fast");
+    var text="window.location.href=\"main.html?page="+0+"&selected="+3+"&tag_sel="+5+"\"";
+    var t=setTimeout(text,500);
+    $(".tags_t").css('color','#474747');
+    document.getElementById("tags_t_5").style.color="#ff6f79";
+    tag_sel=5;
+}
+function tags_t_6_click() {
+    page=0;
+    tag_sel=6;
+    $(".tags").slideToggle("fast");
+    var text="window.location.href=\"main.html?page="+0+"&selected="+3+"&tag_sel="+6+"\"";
+    var t=setTimeout(text,500);
+    $(".tags_t").css('color','#474747');
+    document.getElementById("tags_t_6").style.color="#ff6f79";
+    tag_sel=6;
+}
+function tags_t_1_over(){
+    if(1!=tag_sel){
+        document.getElementById("tags_t_1").style.color="#ffa9af";
+    }
+}
+function tags_t_1_out() {
+    if(1!=tag_sel){
+        document.getElementById("tags_t_1").style.color="#474747";
+    }
+    else{
+        document.getElementById("tags_t_1").style.color="#ff6f79";
+    }
+}
+
+function tags_t_2_over(){
+    if(2!=tag_sel){
+        document.getElementById("tags_t_2").style.color="#ffa9af";
+    }
+}
+function tags_t_2_out() {
+    if(2!=tag_sel){
+        document.getElementById("tags_t_2").style.color="#474747";
+    }
+    else{
+        document.getElementById("tags_t_2").style.color="#ff6f79";
+    }
+}
+
+function tags_t_3_over(){
+    if(3!=tag_sel){
+        document.getElementById("tags_t_3").style.color="#ffa9af";
+    }
+}
+function tags_t_3_out() {
+    if(3!=tag_sel){
+        document.getElementById("tags_t_3").style.color="#474747";
+    }
+    else{
+        document.getElementById("tags_t_3").style.color="#ff6f79";
+    }
+}
+
+function tags_t_4_over(){
+    if(4!=tag_sel){
+        document.getElementById("tags_t_4").style.color="#ffa9af";
+    }
+}
+function tags_t_4_out() {
+    if(4!=tag_sel){
+        document.getElementById("tags_t_4").style.color="#474747";
+    }
+    else{
+        document.getElementById("tags_t_4").style.color="#ff6f79";
+    }
+}
+
+function tags_t_5_over(){
+    if(5!=tag_sel){
+        document.getElementById("tags_t_5").style.color="#ffa9af";
+    }
+}
+function tags_t_5_out() {
+    if(5!=tag_sel){
+        document.getElementById("tags_t_5").style.color="#474747";
+    }
+    else{
+        document.getElementById("tags_t_5").style.color="#ff6f79";
+    }
+}
+
+function tags_t_6_over(){
+    if(6!=tag_sel){
+        document.getElementById("tags_t_6").style.color="#ffa9af";
+    }
+}
+function tags_t_6_out() {
+    if(6!=tag_sel){
+        document.getElementById("tags_t_6").style.color="#474747";
+    }
+    else{
+        document.getElementById("tags_t_6").style.color="#ff6f79";
+    }
+}
+
+
+
+
+
+
 function tag_1_click() {
     $(".tag_text").text("时政");
     $(".tag_text").css('color','#000000');
@@ -223,15 +476,13 @@ function create_confirm() {
     $(".create_news").animate({
         top:'-=1013px'
     });
-    var t=setTimeout("window.location.href=\"main.html\"",500);
+    var text="window.location.href=\"main.html?page="+0+"&selected="+selected+"\"";
+    var t=setTimeout(text,500);
 }
 
 
 function createNews() {
-    console.log("fwe");
-    $.getJSON("/SwenNews/api/v1/news?page_num=0&news_type=all&time=0&hot=0",function (data) {
-        console.log("fwe");
-        console.log(data);
+    $.getJSON("demo.json",function (data) {
         // alert("yeah")
         $.each(data,function (index,item) {
             // alert(index+item.title);
@@ -258,23 +509,27 @@ function shelter_click() {
 }
 function swen_news_click(){
     window.location.href="main.html"
-}
-function last_page_click() {
-    page=page-1;
-    $(".main_block").animate({
-        top:'+=1000px'
-    });
-    var text="window.location.href=\"main.html?page="+page+"\"";
-    var t=setTimeout(text,500);
+}function last_page_click() {
+    if(page!=0)
+    {
+        page=parseInt(page)-1;
+        $(".main_block").animate({
+            top:'+=1000px'
+        });
+        var text="window.location.href=\"main.html?page="+page+"&selected="+selected+"&tag_sel="+tag_sel+"\"";
+        var t=setTimeout(text,500);
+    }
+
 }
 function next_page_click() {
-    page=page+1;
+    page=parseInt(page)+1;
     $(".main_block").animate({
         top:'-=1000px'
     });
-    var text="window.location.href=\"main.html?page="+page+"\"";
+    var text="window.location.href=\"main.html?page="+page+"&selected="+selected+"&tag_sel="+tag_sel+"\"";
     var t=setTimeout(text,500);
 }
+
 function getParams(key) {
     var reg = new RegExp("(^|&)" + key + "=([^&]*)(&|$)");
     var r = window.location.search.substr(1).match(reg);
@@ -282,4 +537,87 @@ function getParams(key) {
         return unescape(r[2]);
     }
     return null;
-};
+}
+function getNewestNews(pageNum) {
+    $.ajax({
+        url: '/SwenNews/api/v1/news?page_num='+pageNum+'&news_type=all&time=1&hot=0',
+        type: 'GET',
+        dataType: 'json'
+    })
+        .done(function(data) {
+            $.each(data,function (index,item) {
+                if(index!='status'&&index!='error_msg')
+                {
+                    $(".news_block_ul").append(
+                        "<li><div class='main_block' id='main_block_"+index+"'onmousedown='main_block_click("+item.id+")'>" +"<ul><li>"+
+                        "<span class='news_block_tag'>来自话题："+item.news_type+"</span><li>" +
+                        "<li><span class='news_block_title'>"+item.title+"</span><li>" +
+                        "<li><span class='news_block_content'>"+item.content+"</span><li>"+
+                        "<span class='head_icon'></span>"+
+                        "<span class='date_time'></span>"+
+                        "<li><span class='news_block_author'>"+item.username+"</span></li>"+
+                        "<li><span class='news_block_date'>"+item.datetime+"<li>"+
+                        "</ul></div><li>")
+                }
+            })
+        })
+        .fail(function() {
+            console.log("error")
+        })
+}
+
+function getHotNews(pageNum) {
+    $.ajax({
+        url: '/SwenNews/api/v1/news?page_num='+pageNum+'&news_type=all&time=0&hot=1',
+        type: 'GET',
+        dataType: 'json'
+    })
+        .done(function(data) {
+            $.each(data,function (index,item) {
+                if(index!='status'&&index!='error_msg'){
+                    $(".news_block_ul").append(
+                        "<li><div class='main_block' id='main_block_"+index+"'onmousedown='main_block_click("+item.id+")'>" +"<ul><li>"+
+                        "<span class='news_block_tag'>来自话题："+item.news_type+"</span><li>" +
+                        "<li><span class='news_block_title'>"+item.title+"</span><li>" +
+                        "<li><span class='news_block_content'>"+item.content+"</span><li>"+
+                        "<span class='head_icon'></span>"+
+                        "<span class='date_time'></span>"+
+                        "<li><span class='news_block_author'>"+item.username+"</span></li>"+
+                        "<li><span class='news_block_date'>"+item.datetime+"<li>"+
+                        "</ul></div><li>"
+                    );
+                }
+            })
+        })
+        .fail(function() {
+            console.log("error")
+        })
+}
+
+function getTypeNews(pageNum,newsType) {
+    $.ajax({
+        url: '/SwenNews/api/v1/news?page_num='+pageNum+'&news_type='+newsType+'&time=0&hot=0',
+        type: 'GET',
+        dataType: 'json'
+    })
+        .done(function(data) {
+            $.each(data,function (index,item) {
+                if(index!='status'&&index!='error_msg'){
+                    $(".news_block_ul").append(
+                        "<li><div class='main_block' id='main_block_"+index+"'onmousedown='main_block_click("+item.id+")'>" +"<ul><li>"+
+                        "<span class='news_block_tag'>来自话题："+item.news_type+"</span><li>" +
+                        "<li><span class='news_block_title'>"+item.title+"</span><li>" +
+                        "<li><span class='news_block_content'>"+item.content+"</span><li>"+
+                        "<span class='head_icon'></span>"+
+                        "<span class='date_time'></span>"+
+                        "<li><span class='news_block_author'>"+item.username+"</span></li>"+
+                        "<li><span class='news_block_date'>"+item.datetime+"<li>"+
+                        "</ul></div><li>"
+                    );
+                }
+            })
+        })
+        .fail(function() {
+            console.log("error")
+        })
+}

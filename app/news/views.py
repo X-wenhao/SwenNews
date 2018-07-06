@@ -6,7 +6,11 @@ from ..models import News, User, news_types
 from .. import db
 import random
 
-@snews.route('/SwenNews')
+@snews.route('/SwenNews/main.html')
 def index():
     return render_template('main.html')
+
+@snews.route('/SwenNews/detail.html')
+def detail():
+    return render_template('detail.html')
 

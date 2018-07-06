@@ -56,7 +56,8 @@ div.panel{
     width: 120px;
     height:160px;
     background:#ffffff;
-    border:solid 1px #c3c3c3;
+    box-shadow: 0px 3px 5px 0px
+    rgba(0, 0, 0, 0.1);
     position: relative;
     margin-top: 20px;
     margin-left:1245px ;
@@ -95,12 +96,13 @@ div.panel{
     border-radius: 3px;
 }
 .picture_frame{
+    background: url("../images/avatar.png");
+    background-size: 213px;
     position: absolute;
     margin-left: 36px;
     margin-top: 67px;
     width:213px;
     height: 213px;
-    border:1px dotted black;
     border-radius: 6px;
     border: solid 5px #efefef;
 }

@@ -8,7 +8,7 @@ from flask_login import UserMixin, AnonymousUserMixin
 #from app.exceptions import ValidationError
 from . import db,login_manager
 
-news_types=['时政','娱乐']
+news_types=['时政','娱乐','科技','娱乐','游戏','体育','财经']
 
 class User(UserMixin, db.Model):
     __tablename__ = 'users'

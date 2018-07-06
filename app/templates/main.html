@@ -5,13 +5,17 @@
     <title>Title</title>
     <link rel="stylesheet" type="text/css" href="../static/css/main_style.css" />
     <script src="../static/js/jquery-3.3.1.js"></script>
-
+    <script type="text/javascript" src="../static/js/jquery-ui.js"></script>
+    <script type="text/javascript" src="../static/js/jquery.rotate.min.js"></script>
+    <script type="text/javascript" src="../static/js/jquery-ui.min.js"></script>
     <script type="text/javascript" src="../static/js/main.js"></script>
     <script type="text/javascript" src="../static/js/jquery.nicescroll.js"></script>
     <script type="text/javascript" src="../static/js/jquery.nicescroll.min.js"></script>
     <script type="text/javascript" src="../static/js/noframework.js"></script>
     <script type="text/javascript" src="../static/js/zepto.js"></script>
     <script type="text/javascript" src="../static/js/jquery-zepto-fn-extension.js"></script>
+    <link rel="stylesheet" href="../static/js/node_modules/izitoast/dist/css/iziToast.min.css">
+    <script src="../static/js/node_modules/izitoast/dist/js/iziToast.min.js" type="text/javascript"></script>
 </head>
 <body>
 <div class="main">
@@ -25,19 +29,18 @@
             <ul>
                 <li><span class="me" onmousedown="user_center_click()">用户中心</span> </li>
                 <li><span class="my_news" onmousedown="my_news_click()">我的新闻</span> </li>
-                <li><span class="exit">退出登录</span> </li>
+                <li><span class="exit" onclick="logout()">退出登录</span> </li>
             </ul>
         </div>
-        <div class="line"></div>
     </div>
     <div class="tags" >
         <ul class="tag_ul">
-            <li class="tag_li"><span class="tags_t" id="tags_t_1">时政</span></li>
-            <li class="tag_li"><span class="tags_t" id="tags_t_2">科技</span></li>
-            <li class="tag_li"><span class="tags_t" id="tags_t_3">娱乐</span></li>
-            <li class="tag_li"><span class="tags_t" id="tags_t_4">游戏</span></li>
-            <li class="tag_li"><span class="tags_t" id="tags_t_5">体育</span></li>
-            <li class="tag_li"><span class="tags_t" id="tags_t_6">财经</span></li>
+            <li class="tag_li"><span class="tags_t" id="tags_t_1" onmousedown="tags_t_1_click()" onmouseover="tags_t_1_over()" onmouseout="tags_t_1_out()">时政</span></li>
+            <li class="tag_li"><span class="tags_t" id="tags_t_2" onmousedown="tags_t_2_click()" onmouseover="tags_t_2_over()" onmouseout="tags_t_2_out()">科技</span></li>
+            <li class="tag_li"><span class="tags_t" id="tags_t_3" onmousedown="tags_t_3_click()" onmouseover="tags_t_3_over()" onmouseout="tags_t_3_out()">娱乐</span></li>
+            <li class="tag_li"><span class="tags_t" id="tags_t_4" onmousedown="tags_t_4_click()" onmouseover="tags_t_4_over()" onmouseout="tags_t_4_out()">游戏</span></li>
+            <li class="tag_li"><span class="tags_t" id="tags_t_5" onmousedown="tags_t_5_click()" onmouseover="tags_t_5_over()" onmouseout="tags_t_5_out()">体育</span></li>
+            <li class="tag_li"><span class="tags_t" id="tags_t_6" onmousedown="tags_t_6_click()" onmouseover="tags_t_6_over()" onmouseout="tags_t_6_out()">财经</span></li>
         </ul>
     </div>
     <div class="main_in_main">
@@ -49,6 +52,7 @@
         </div>
     </div>
     <img src="../static/images/navbtn.png" class="new" name="new" id="new" onmousedown="create_news()">
+    <img src="../static/images/navbtn.png" class="new_low" name="new" id="new_low" onmousedown="create_news()">
     <div class="create_news">
         <form class="create_form">
             <ul class="create_ul">
@@ -78,7 +82,7 @@
         <div class="create_confirm" onmousedown="create_confirm()">
         </div>
     </div>
-    <div class="shelter" onclick="shelter_click()"></div>
+    <div class="shelter"></div>
 </div>
 </body>
 </html>

@@ -1,13 +1,24 @@
 function signIn(){
     var loginName = $("#loginName"),password = $("#Password");
     var loginName = loginName.val(),password = password.val();
-    $.post("url",{
-            username:loginName,
-            password:password
-        },
-        function(data,status){
-            alert("数据: \n" + data + "\n状态: " + status);
-        });
+    $.ajax({
+        url: '/SwenNews/api/v1/session',
+        type: 'POST',
+        dataType: 'json',
+        contentType: "application/json; charset=utf-8",
+        data: JSON.stringify({"username": loginName, "password": password}),
+    })
+        .done(function(data) {
+            if (!data.result) {
+                window.location.href="main.html"
+            } else {
+                toastError("密码或用户名错误")
+            }
+        })
+        .fail(function() {
+            console.log("error")
+        })
+
 }
 
 // 错误信息提醒
@@ -26,8 +37,26 @@ $(function(){
         return true;
     }
 });
-
-
-
-
-
+function jump(url) {
+    window.location.href=url;
+}
+function toastError(title,message) {
+    iziToast.show({
+        class: 'test',
+        color: '#ffffff',
+        icon: 'icon-contacts',
+        title: title,
+        message: message,
+        position: 'topCenter',
+        transitionIn: 'flipInX',
+        transitionOut: 'flipOutX',
+        progressBarColor: 'rgb(0, 255, 184)',
+        image: '../static/images/error_cat.gif',
+        imageWidth: 70,
+        layout:2,
+        onClose: function(){
+            console.info('onClose');
+        },
+        iconColor: 'rgb(0, 255, 184)'
+    });
+}

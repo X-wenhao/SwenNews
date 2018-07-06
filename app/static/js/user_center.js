@@ -2,6 +2,7 @@ var selected = 1
 var edit_flag=false;
 $(document).ready(function(){
     var slide_flag=false;
+    get_user_info();
     $("body").niceScroll({cursorborder:"",cursorcolor:"#9D9D9D",boxzoom:true});
     $(".user").click(function(){
         if(!slide_flag)
@@ -15,6 +16,21 @@ $(document).ready(function(){
         }
     });
 });
+function get_user_info() {
+    $.ajax({
+        url: '/SwenNews/api/v1/session',
+        type: 'GET',
+        dataType: 'json'
+    })
+        .done(function(data) {
+            $(".name_user").text(data.username);
+            $(".email_user").text(data.mail);
+            $(".picture_frame").css('background-image',data.avatar);
+        })
+        .fail(function() {
+            console.log("get user information error")
+        })
+}
 function news_list() {
     $(".news_list").append("<li>新闻1</li>")
 }
@@ -87,7 +103,7 @@ function keep_data() {
     edit_flag=false;
     var text="window.location.href=\"user_center.html\"";
     var t=setTimeout(text,500);
-
+    saveInfo();
 }
 
 function previewHandle(fileDOM) {
@@ -116,10 +132,71 @@ function previewHandle(fileDOM) {
         var img = document.getElementById("user_image");
         // 图片路径设置为读取的图片
         var txt=event.target.result;
-
         img.src = txt;
-
     };
     reader.readAsDataURL(file);
 }
 
+function shelter_click() {
+    $(".shelter_user_center").css('display','none');
+    $(".info_edit").animate({
+        top:'-=1100px'
+    });
+    edit_flag=false;
+}
+
+function saveInfo() {
+    $.ajax({
+        url: '/SwenNews/api/v1/user',
+        type: 'PUT',
+        dataType: 'json',
+        contentType: "application/json; charset=utf-8",
+        data: JSON.stringify({"username": $(".user_name").val()}),
+    })
+        .done(function(data) {
+            if (!data.result) {
+                alert("注册成功")
+            } else {
+                alert("注册失败")
+            }
+        })
+        .fail(function() {
+            console.log("error")
+        })
+
+    $.ajax({
+        url: '/SwenNews/api/v1/avatar',
+        type: 'PUT',
+        contentType: false,
+        data: new FormData($("#uploadForm")[1]),
+        processData:false
+    })
+        .done(function(data) {
+            if (!data.result) {
+                alert("保存成功")
+            } else {
+                alert("保存失败")
+            }
+        })
+        .fail(function() {
+            console.log("error")
+        })
+}
+function logout() {
+    $.ajax({
+        url: '/SwenNews/api/v1/session',
+        type: 'DELETE',
+        dataType: 'json',
+        contentType: "application/json; charset=utf-8",
+        data: JSON.stringify({"user_id": user_id}),
+    })
+        .done(function(data) {
+            if(1==data.status)
+            {
+                login_flag=false;
+            }
+        })
+        .fail(function() {
+            console.log("log out error")
+        })
+}

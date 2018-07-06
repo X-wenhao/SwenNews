@@ -17,7 +17,7 @@
         <div class="panel" >
             <ul>
                 <li><span class="me" onmousedown="user_center_click()">用户中心</span> </li>
-                <li><span class="my_new" >我的新闻</span> </li>
+                <li><span class="my_new" onmousedown="user_center_click()">我的新闻</span> </li>
                 <li><span class="exit" >退出登录</span> </li>
             </ul>
         </div>
@@ -41,16 +41,16 @@
     </div>
     <div class="info_edit">
         <div class="head_pic" ></div>
-        <image class="user_image" src="../static/images/user.png" id="user_image"></image>
+        <image class="user_image" src="../static/images/avatar.png" id="user_image"></image>
         <image class="edit_image" src="../static/images/edit_pic_button.png"></image>
         <span class="edit_title">编辑资料</span>
+        <form id="uploadForm" enctype="multipart/form-data">
         <input class="user_name" type="text"  placeholder="用户名" >
-        <input class="user_email" type="text"  placeholder="邮箱">
-
         <input type="file" class="edit_pic_btn" onchange="previewHandle(this)">
+        </form>
         <image src="../static/images/keep_data.png" class="keep_data_btn" onmousedown="keep_data()" ></image>
     </div>
-    <div class="shelter_user_center"></div>
+    <div class="shelter_user_center" onmousedown="shelter_click()"></div>
 </div>
 </body>
 </html>

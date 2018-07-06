@@ -23,7 +23,7 @@ $(document).ready(function(){
             window.location.href="login.html"
         }
     });
-    //t=setTimeout(getNews(load_flag),500)
+    // t=setTimeout(getNews(load_flag),500)
     t=setTimeout(load_(load_flag),500)
 });
 
@@ -63,7 +63,7 @@ function logout() {
         })
 }
 // function getNews(load_flag) {
-
+//
 //     $.ajax({
 //         url: '/SwenNews/api/v1/news/'+id+'',
 //         type: 'GET',

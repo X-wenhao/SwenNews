@@ -60,7 +60,7 @@ def auth_api_session_post():
 
 
 @auth.route("/SwenNews/api/v1/session",methods=['DELETE'])
-#@login_required
+@login_required
 def auth_api_session_delete():
     logout_user()
     return jsonify({'status': 1})
@@ -114,6 +114,7 @@ def auth_api_user_post():
 
 
 @auth.route("/SwenNews/api/v1/user",methods=["PUT"])
+@login_required
 def auth_api_user_username_put():
     args=request.get_json()
     re={"status":0}
@@ -130,6 +131,7 @@ def auth_api_user_username_put():
     return jsonify({"status":1}),200
 
 @auth.route("/SwenNews/api/v1/user/password",methods=["PUT"])
+@login_required
 def auth_api_user_password_put():
     args=request.get_json()
     re={"status":0}
@@ -145,6 +147,7 @@ def auth_api_user_password_put():
     return jsonify({"status":1}),200
 
 @auth.route("/SwenNews/api/v1/user/avatar",methods=["PUT"])
+@login_required
 def auth_api_user_avatar_put():
     if current_user.is_authenticated :
         return jsonify({"status":0,"error_msg":"args error"}),400

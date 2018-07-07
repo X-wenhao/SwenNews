@@ -1,5 +1,5 @@
 from flask import request, jsonify
-from flask_login import current_user
+from flask_login import current_user,login_required
 import datetime
 from . import snews
 from ..models import News, User, news_types
@@ -83,6 +83,7 @@ def news_api_news_return(id):
 
 
 @snews.route("/SwenNews/api/v1/news/news", methods=['POST'])
+@login_required
 def news_api_create_news():
     args = request.get_json()
     re = {}
@@ -106,6 +107,7 @@ def news_api_create_news():
 
 
 @snews.route("/SwenNews/api/v1/news/list", methods=['GET'])
+@login_required
 def news_api_return_all_news():
     user = User.query.filter_by(id=current_user.get_id()).first()
     all_news = user.news.all()
@@ -116,7 +118,8 @@ def news_api_return_all_news():
             'id': all_news[i].id,
             'title': all_news[i].title,
             'news_type': all_news[i].news_type,
-            'datetime': all_news[i].date.date.isoformat()
+            'datetime': all_news[i].date.isoformat(),
+            'checked':all_news[i].checked
         }
     return jsonify(re) ,200
 

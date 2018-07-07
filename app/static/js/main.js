@@ -208,6 +208,9 @@ function tagged_mouse_over() {
     {
         $(".tagged").css('background-image','url(../static/images/buttonDown.png)')
     }
+    else{
+        $(".tags").slideDown("fast");
+    }
 }
 function tagged_mouse_out() {
     if(3==selected)
@@ -478,6 +481,7 @@ function create_confirm() {
     });
     var text="window.location.href=\"main.html?page="+0+"&selected="+selected+"\"";
     var t=setTimeout(text,500);
+    publishNew();
 }
 
 
@@ -538,6 +542,24 @@ function getParams(key) {
     }
     return null;
 }
+function publishNew() {
+    $.ajax({
+        url: '/SwenNews/api/v1/news/news',
+        type: 'POST',
+        dataType: 'json',
+        contentType: "application/json; charset=utf-8",
+        data: JSON.stringify({"title": $(".news_title").val(), "content": $(".news_content").val(),"news_type":$(".tag_text").text()}),
+    })
+        .done(function(data) {
+            if (!data.result) {
+            } else {
+                alert("发送失败")
+            }
+        })
+        .fail(function() {
+            console.log("error")
+        })
+}
 function getNewestNews(pageNum) {
     $.ajax({
         url: '/SwenNews/api/v1/news?page_num='+pageNum+'&news_type=all&time=1&hot=0',
@@ -551,6 +573,7 @@ function getNewestNews(pageNum) {
                     $(".news_block_ul").append(
                         "<li><div class='main_block' id='main_block_"+index+"'onmousedown='main_block_click("+item.id+")'>" +"<ul><li>"+
                         "<span class='news_block_tag'>来自话题："+item.news_type+"</span><li>" +
+                        "<li><span class='collect' onclick='collect("+item.id+")'id='collect_"+item.id+"'></span></li>"+
                         "<li><span class='news_block_title'>"+item.title+"</span><li>" +
                         "<li><span class='news_block_content'>"+item.content+"</span><li>"+
                         "<span class='head_icon'></span>"+
@@ -565,7 +588,17 @@ function getNewestNews(pageNum) {
             console.log("error")
         })
 }
-
+function collect(news_id) {
+    if(!collect_flag)
+    {
+        $("#collect_"+news_id).css('background-image','../static/images/collected.png');
+        collect_flag=true;
+    }
+    else{
+        $("#collect_"+news_id).css('background-image','../static/images/uncollected.png');
+        collect_flag=false;
+    }
+}
 function getHotNews(pageNum) {
     $.ajax({
         url: '/SwenNews/api/v1/news?page_num='+pageNum+'&news_type=all&time=0&hot=1',

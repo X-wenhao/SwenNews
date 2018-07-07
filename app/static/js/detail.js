@@ -23,10 +23,13 @@ $(document).ready(function(){
             window.location.href="login.html"
         }
     });
-    // t=setTimeout(getNews(load_flag),500)
-    t=setTimeout(load_(load_flag),500)
+    t=setTimeout(getNews(load_flag),500)
+    //t=setTimeout(load_(load_flag),0)
 });
-
+function replace_br(str) {
+    var s=str.toString().replace(/\r\n\r\n/g, '<br/>');
+    return s;
+}
 function get_user_info() {
     $.ajax({
         url: '/SwenNews/api/v1/session',
@@ -62,21 +65,23 @@ function logout() {
             console.log("log out error")
         })
 }
-// function getNews(load_flag) {
-//
-//     $.ajax({
-//         url: '/SwenNews/api/v1/news/'+id+'',
-//         type: 'GET',
-//         dataType: 'json'
-//     })
-//     .done(function(data) {
-//             console.log(data.id);
-//             load(load_flag,data.news_type,data.title,data.content,data.username,data.datetime);
-//         })
-//         .fail(function() {
-//             console.log("error")
-//         })
-// }
+function getNews(load_flag) {
+
+    $.ajax({
+        url: '/SwenNews/api/v1/news/'+id+'',
+        type: 'GET',
+        dataType: 'json'
+    })
+    .done(function(data) {
+            console.log(data.id);
+            var s=replace_br(data.content);
+            extra=data.username.toString().split("\r\n\r\n").length;
+            load(load_flag,data.news_type,data.title,s,data.username,data.datetime);
+        })
+        .fail(function() {
+            console.log("error")
+        })
+}
 function load(load_flag,news_type,title,content,username,datetime) {
     if(!load_flag)
     {
@@ -94,8 +99,9 @@ function load(load_flag,news_type,title,content,username,datetime) {
             .animate({
             top:'-=600px'
         });
+        //var extra=$(".news_content").text().split('<br/>').length;
         var count=$(".news_content").text().length
-        var height=137+37*(count/40);
+        var height=137+37*(extra+count/40);
         $(".date_time_pic").css('margin-top',height+27);
         $(".head_icon").css('margin-top',height+27);
         $(".date_time").css('margin-top',height+19);
@@ -114,6 +120,9 @@ function load_(load_flag) {
             });
         load_flag=true;
     }
+    s=replace_br($(".news_content").html());
+    //alert(s)
+    $(".news_content").html(s);
     var count=$(".news_content").text().length
     var height=137+37*(count/40);
     $(".date_time_pic").css('margin-top',height+27);

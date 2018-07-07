@@ -516,3 +516,9 @@ input::-webkit-input-placeholder{
     height: 1px;
     background-color: #cdcdcd;
 }
+.collect{
+    background: url("../images/uncollected.png");
+    margin-left: 1023px;
+    width: 29px;
+    height: 29px;
+}

@@ -3,6 +3,7 @@ var edit_flag=false;
 $(document).ready(function(){
     var slide_flag=false;
     get_user_info();
+    get_my_news();
     $("body").niceScroll({cursorborder:"",cursorcolor:"#9D9D9D",boxzoom:true});
     $(".user").click(function(){
         if(!slide_flag)
@@ -16,6 +17,30 @@ $(document).ready(function(){
         }
     });
 });
+function get_my_news() {
+    $.ajax({
+        url: '/SwenNews/api/v1/news/list',
+        type: 'GET',
+        dataType: 'json'
+    })
+        .done(function(data) {
+            $.each(data,function (index,item) {
+                if(index!='status'&&index!='error_msg')
+                {
+                    $(".list").append(
+                    "<li><span class='my_news_list' onclick='my_news_click("+item.id+")'>"+item.title+"</span></li>"
+                )
+                }
+            })
+        })
+        .fail(function() {
+            console.log("error")
+        })
+}
+function my_news_click() {
+    var text="window.location.href=\"detail.html?id="+newsid+"\"";
+    var t=setTimeout(text,500);
+}
 function get_user_info() {
     $.ajax({
         url: '/SwenNews/api/v1/session',

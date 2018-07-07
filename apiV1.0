@@ -173,6 +173,7 @@ return
         title:
         news_type:
         datetime:
+        checked:   -1/0/1
     }
     2 : {
 

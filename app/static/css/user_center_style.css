@@ -352,3 +352,15 @@ div.panel{
     margin-top: -105px;
     z-index: 888;
 }
+
+.list li{
+    line-height: 100px;
+    height:69px;
+    margin: 5px 5px;
+    margin-left: -60px;
+    border-bottom: 1px solid #efefef;
+}
+.my_news_list{
+    line-height: 100px;
+    margin-top: 50px;
+}

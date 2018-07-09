@@ -88,8 +88,8 @@ def news_api_news_return(id):
             "avatar":"/static/user/avatar/"+str(user.id)+'.jpg',
             'datetime': comment.date.isoformat()[:10]
         }
-        if  not os.path.isfile(re['comment'][str(i)]['avatar']):    
-            re['comment'][str(i)]['avatar']="/static/user/avatar/0.jpg"
+        if  not os.path.isfile(re['comments'][str(i)]['avatar']):    
+            re['comments'][str(i)]['avatar']="/static/user/avatar/0.jpg"
     print(re)
     return jsonify(re), 200
 
@@ -130,7 +130,7 @@ def news_api_return_all_news():
             'id': all_news[i].id,
             'title': all_news[i].title,
             'news_type': all_news[i].news_type,
-            'datetime': all_news[i].date.isoformat(),
+            'datetime': all_news[i].date.isoformat()[:10],
         }
     return jsonify(re) ,200
 

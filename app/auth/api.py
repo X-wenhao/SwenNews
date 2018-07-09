@@ -190,19 +190,19 @@ def allowed_file(filename):
 @auth.route("/SwenNews/api/v1/collection",methods=["GET"])
 @login_required
 def auth_api_collection_get():
-    if request.args.get("user_id")!=current_user.id:
+    if int(request.args.get("user_id"))!=current_user.id:
         return jsonify({"status":0}),400
     user = current_user
-    all_news = user.collections.all()
-    lens = len(user.news.all())
+    print(user.collections)
+    all_news = user.collections
+    lens = len(all_news)
     re = {"status":1}
     for i in range(lens):
         re[str(i)] = {
             'id': all_news[i].id,
             'title': all_news[i].title,
             'news_type': all_news[i].news_type,
-            'datetime': all_news[i].date.isoformat(),
-            'checked':all_news[i].checked
+            'datetime': all_news[i].date.isoformat()[:10],
         }
     return jsonify(re) ,200
 
@@ -210,6 +210,7 @@ def auth_api_collection_get():
 @login_required
 def auth_api_collection_post():
     args=request.get_json()
+    print(args)
     re={"status":0}
     for key in ["user_id","news_id"]:
         if not args.get(key):
@@ -217,7 +218,7 @@ def auth_api_collection_post():
             return jsonify(re),400
     if args.get("user_id")!=current_user.id:
         return jsonify(re),400
-    news=News.query.get("news_id")
+    news=News.query.get(args["news_id"])
     if not news:
         return jsonify(re),400
     current_user.collections.append(news)
@@ -236,7 +237,7 @@ def auth_api_collection_delete():
             return jsonify(re),400
     if args.get("user_id")!=current_user.id:
         return jsonify(re),400
-    news=News.query.get("news_id")
+    news=News.query.get(args["news_id"])
     if not news:
         return jsonify(re),400
     current_user.collections.remove(news)
@@ -255,7 +256,8 @@ def auth_api_comment_post():
             return jsonify(re),400
     if args.get("user_id")!=current_user.id:
         return jsonify(re),400
-    news=News.query.get("news_id")
+    news=News.query.get(args["news_id"])
+    print(news)
     if not news:
         return jsonify(re),400
     comment_create = Comment( content=args['content'],  user_id=current_user.id,news_id=args['news_id'])

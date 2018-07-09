@@ -10,6 +10,11 @@ from . import db,login_manager
 
 news_types=['时政','娱乐','科技','娱乐','游戏','体育','财经']
 
+u_n_collection== db.Table('article_tag',
+    db.Column('user_id',db.Integer,db.ForeignKey('users.id'),primary_key=True),
+    db.Column('tnews_id',db.Integer,db.ForeignKey('news.id'),primary_key=True) 
+        )
+
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
@@ -21,7 +26,9 @@ class User(UserMixin, db.Model):
     confirmed = db.Column(db.Boolean, default=False)
     news = db.relationship('News', backref='user',
                                 lazy='dynamic')
-    
+    comments = db.relationship('Comment', backref='user',
+                                lazy='dynamic')
+    collections=db.relationship('News',secondary= u_n_collection,backref = db.backref('users'))
 
     def __init__(self, **kwargs):
         super(User, self).__init__(**kwargs)
@@ -85,6 +92,8 @@ class News(db.Model):
     hit_count=db.Column(db.Integer,default=0)
     checked=db.Column(db.Integer,default=-1)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    comments = db.relationship('Comment', backref='news',
+                                lazy='dynamic')
     
     def __init__(self, **kwargs):
         super(News, self).__init__(**kwargs)
@@ -92,4 +101,17 @@ class News(db.Model):
     def __repr__(self):
         return '<News %r>' % self.title
 
+class Comment(db.Model):
+    __tablename__="comments"
+    id = db.Column(db.Integer, primary_key=True)
+    content=db.Column(db.Text)
+    date=db.Column(db.DateTime,default=datetime.now())
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    news_id = db.Column(db.Integer, db.ForeignKey('news.id'))
+    
+    def __init__(self, **kwargs):
+        super(Comment, self).__init__(**kwargs)
+
+    def __repr__(self):
+        return '<Comment %r>' % self.content
 

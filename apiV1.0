@@ -152,6 +152,14 @@ return
     news_type:
     username:
     datetime:
+    comments：{
+        1：{
+            content：
+            user_name:
+            avatar：
+            datetime:
+        }
+    }
 }
 
 POST /SwenNews/api/v1/news/news         //创建一个新闻
@@ -178,4 +186,55 @@ return
     2 : {
 
     }
+}
+
+
+
+###收藏相关
+
+GET /SwenNews/api/v1/collection?user_id=
+return
+{
+    1 : {
+        id:
+        title:
+        news_type:
+        datetime:
+    }
+    2 : {
+
+    }
+}
+
+POST /SwenNews/api/v1/collection
+{
+    news_id:
+    user_id:
+}
+return 
+{
+    status : 0/1
+}
+
+DELETE /SwenNews/api/v1/collection
+{
+    news_id:
+    user_id:
+}
+return
+{
+    status:0/1
+}
+
+### 评论相关
+
+POST /SwenNews/api/v1/comment
+{
+    content：
+    news_id:
+    user_id:
+}
+return 
+{
+    status : 0/1
 }

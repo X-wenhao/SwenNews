@@ -1,4 +1,4 @@
-from flask import render_template, redirect, request, url_for, flash,request,jsonify,session
+from flask import render_template, redirect, request, url_for, flash,request,jsonify,session,current_app
 from flask_login import login_user, logout_user, login_required, \
     current_user
 from . import auth
@@ -119,7 +119,7 @@ def auth_api_user_username_put():
     args=request.get_json()
     re={"status":0}
     if args.get('username'):
-        if  User.query.filter_by(username=args['username']):
+        if  User.query.filter_by(username=args['username']).first():
             re["error_msg"]='args error'
             return jsonify(re),400
         current_user.username=args["username"]
@@ -149,7 +149,7 @@ def auth_api_user_password_put():
 @auth.route("/SwenNews/api/v1/user/avatar",methods=["PUT"])
 @login_required
 def auth_api_user_avatar_put():
-    if current_user.is_authenticated :
+    if not current_user.is_authenticated :
         return jsonify({"status":0,"error_msg":"args error"}),400
     try:
         file = request.files['file']
@@ -160,7 +160,7 @@ def auth_api_user_avatar_put():
         im.resize(size)
         if file and allowed_file(file.filename):
             filename = str(current_user.id) + '.jpg' 
-            im.save(os.path.join(auth.static_folder,"user/avatar",filename))
+            im.save(os.path.join(current_app.config['AVATAR_FOLDER'],filename))
         return jsonify({"status":1}),200
     except:
         return jsonify({"status":0,"error_msg":"can not upload avatat"}),500

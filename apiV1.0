@@ -196,8 +196,8 @@ GET /SwenNews/api/v1/collection?user_id=
 return
 {
     1 : {
-        news_id:
-        news_title:
+        id:
+        title:
         news_type:
         datetime:
     }

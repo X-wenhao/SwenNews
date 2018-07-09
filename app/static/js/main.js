@@ -67,6 +67,10 @@ function get_user_info() {
             {
                 login_flag=true;
                 user_id=data.id;
+                path='..'+data.avatar
+                $(".user").attr('src',path);
+            }
+            else{
             }
         })
         .fail(function() {
@@ -240,27 +244,30 @@ function tagged_click() {
     $(".tags").slideToggle("fast");
 }
 function create_news() {
-
-    if(!create_flag)
-    {
-        $(".new").rotate({animateTo: 225});
-        $(".shelter").css('display','block');
-        $(".create_news").animate({
-            top:'+=1013px'
-        });
-        $(".news_content").niceScroll({cursorborder:"",cursorcolor:"#cfcfcf",boxzoom:true});
-        create_flag=true;
+    if(login_flag){
+        if(!create_flag)
+        {
+            $(".new").rotate({animateTo: 225});
+            $(".shelter").css('display','block');
+            $(".create_news").animate({
+                top:'+=1013px'
+            });
+            $(".news_content").niceScroll({cursorborder:"",cursorcolor:"#cfcfcf",boxzoom:true});
+            create_flag=true;
+        }
+        else
+        {
+            $(".new").rotate({animateTo: 0});
+            $(".shelter").css('display','none');
+            $(".create_news").animate({
+                top:'-=1013px'
+            });
+            create_flag=false;
+        }
     }
-    else
-    {
-        $(".new").rotate({animateTo: 0});
-        $(".shelter").css('display','none');
-        $(".create_news").animate({
-            top:'-=1013px'
-        });
-        create_flag=false;
+    else{
+        window.location.href="login.html"
     }
-
 }
 function user_center_click() {
     window.location.href="user_center.html"
@@ -479,8 +486,6 @@ function create_confirm() {
     $(".create_news").animate({
         top:'-=1013px'
     });
-    var text="window.location.href=\"main.html?page="+0+"&selected="+selected+"\"";
-    var t=setTimeout(text,500);
     publishNew();
 }
 
@@ -551,13 +556,19 @@ function publishNew() {
         data: JSON.stringify({"title": $(".news_title").val(), "content": $(".news_content").val(),"news_type":$(".tag_text").text()}),
     })
         .done(function(data) {
-            if (!data.result) {
+            if (1==data.status) {
+                toastError('创建成功！','');
+                var text="window.location.href=\"main.html?page="+0+"&selected="+selected+"\"";
+                var t=setTimeout(text,500);
             } else {
-                alert("发送失败")
+                toastError('创建失败！','请重试！');
+                $(".new").rotate({animateTo: 0});
             }
         })
         .fail(function() {
             console.log("error")
+            toastError('创建失败！','请重试！');
+            $(".new").rotate({animateTo: 0});
         })
 }
 function getNewestNews(pageNum) {
@@ -571,16 +582,23 @@ function getNewestNews(pageNum) {
                 if(index!='status'&&index!='error_msg')
                 {
                     $(".news_block_ul").append(
-                        "<li><div class='main_block' id='main_block_"+index+"'onmousedown='main_block_click("+item.id+")'>" +"<ul><li>"+
+                        "<li><div class='main_block' id='main_block_"+index+"'>" +"<ul><li>"+
                         "<span class='news_block_tag'>来自话题："+item.news_type+"</span><li>" +
-                        "<li><span class='collect' onclick='collect("+item.id+")'id='collect_"+item.id+"'></span></li>"+
-                        "<li><span class='news_block_title'>"+item.title+"</span><li>" +
+                        "<img class=\"collect\" id='collect_"+item.id+"' onmousedown=\"collect("+item.id+","+item.flag+")\">"+
+                        // "<li><span class='collect' onclick='collect("+item.id+")'id='collect_"+item.id+"'></span></li>"+
+                        "<li><span class='news_block_title' onmousedown='main_block_click("+item.id+")'>"+item.title+"</span><li>" +
                         "<li><span class='news_block_content'>"+item.content+"</span><li>"+
                         "<span class='head_icon'></span>"+
                         "<span class='date_time'></span>"+
                         "<li><span class='news_block_author'>"+item.username+"</span></li>"+
                         "<li><span class='news_block_date'>"+item.datetime+"<li>"+
                         "</ul></div><li>")
+                    if(!item.flag){
+                        $("#collect_"+item.id).attr('src','../static/images/uncollected.png');
+                    }
+                    else{
+                        $("#collect_"+item.id).attr('src','../static/images/collected.png');
+                    }
                 }
             })
         })
@@ -588,16 +606,68 @@ function getNewestNews(pageNum) {
             console.log("error")
         })
 }
-function collect(news_id) {
-    if(!collect_flag)
-    {
-        $("#collect_"+news_id).css('background-image','../static/images/collected.png');
-        collect_flag=true;
+function collect(news_id,collect_flag) {
+    if(login_flag){
+        var collect_id="#collect_"+news_id;
+        if(!collect_flag)
+        {
+            $(collect_id).attr('src','../static/images/collected.png');
+            collected(news_id);
+            var text="window.location.href=\"main.html?page="+0+"&selected="+selected+"\"";
+            setInterval(text,5000);
+        }
+        else{
+            $(collect_id).attr('src','../static/images/uncollected.png');
+            uncollected(news_id);
+            var text="window.location.href=\"main.html?page="+0+"&selected="+selected+"\"";
+            setInterval(text,5000);
+        }
     }
     else{
-        $("#collect_"+news_id).css('background-image','../static/images/uncollected.png');
-        collect_flag=false;
+        toastError('收藏失败！','请先登录！');
+        var text="window.location.href=\"login.html\"";
+        setInterval(text,5000);
     }
+}
+function uncollected(news_id) {
+    $.ajax({
+        url: '/SwenNews/api/v1/collection',
+        type: 'DELETE',
+        dataType: 'json',
+        contentType: "application/json; charset=utf-8",
+        data: JSON.stringify({"news_id":news_id,"user_id":user_id}),
+    })
+        .done(function(data) {
+            if (1==data.status) {
+                toastError('取消收藏成功！','');
+            } else {
+                toastError('取消收藏失败！','请重试！');
+            }
+        })
+        .fail(function() {
+            console.log("error")
+            toastError('取消收藏失败！','请重试！');
+        })
+}
+function collected(news_id) {
+    $.ajax({
+        url: '/SwenNews/api/v1/collection',
+        type: 'POST',
+        dataType: 'json',
+        contentType: "application/json; charset=utf-8",
+        data: JSON.stringify({"news_id":news_id,"user_id":user_id}),
+    })
+        .done(function(data) {
+            if (1==data.status) {
+                toastError('收藏成功！','');
+            } else {
+                toastError('收藏失败！','请重试！');
+            }
+        })
+        .fail(function() {
+            console.log("error")
+            toastError('收藏失败！','请重试！');
+        })
 }
 function getHotNews(pageNum) {
     $.ajax({
@@ -609,9 +679,10 @@ function getHotNews(pageNum) {
             $.each(data,function (index,item) {
                 if(index!='status'&&index!='error_msg'){
                     $(".news_block_ul").append(
-                        "<li><div class='main_block' id='main_block_"+index+"'onmousedown='main_block_click("+item.id+")'>" +"<ul><li>"+
+                        "<li><div class='main_block' id='main_block_"+index+"'>" +"<ul><li>"+
                         "<span class='news_block_tag'>来自话题："+item.news_type+"</span><li>" +
-                        "<li><span class='news_block_title'>"+item.title+"</span><li>" +
+                        "<img class=\"collect\" id='collect_"+item.id+"' src=\"../static/images/uncollected.png\" onmousedown=\"collect("+item.id+","+item.flag+")\">"+
+                        "<li><span class='news_block_title' onmousedown='main_block_click("+item.id+")'>"+item.title+"</span><li>" +
                         "<li><span class='news_block_content'>"+item.content+"</span><li>"+
                         "<span class='head_icon'></span>"+
                         "<span class='date_time'></span>"+
@@ -619,6 +690,12 @@ function getHotNews(pageNum) {
                         "<li><span class='news_block_date'>"+item.datetime+"<li>"+
                         "</ul></div><li>"
                     );
+                    if(!item.flag){
+                        $("#collect_"+item.id).attr('src','../static/images/uncollected.png');
+                    }
+                    else{
+                        $("#collect_"+item.id).attr('src','../static/images/collected.png');
+                    }
                 }
             })
         })
@@ -637,9 +714,10 @@ function getTypeNews(pageNum,newsType) {
             $.each(data,function (index,item) {
                 if(index!='status'&&index!='error_msg'){
                     $(".news_block_ul").append(
-                        "<li><div class='main_block' id='main_block_"+index+"'onmousedown='main_block_click("+item.id+")'>" +"<ul><li>"+
+                        "<li><div class='main_block' id='main_block_"+index+"'>" +"<ul><li>"+
                         "<span class='news_block_tag'>来自话题："+item.news_type+"</span><li>" +
-                        "<li><span class='news_block_title'>"+item.title+"</span><li>" +
+                        "<img class=\"collect\" id='collect_"+item.id+"' src=\"../static/images/uncollected.png\" onmousedown=\"collect("+item.id+","+item.flag+")\">"+
+                        "<li><span class='news_block_title' onmousedown='main_block_click("+item.id+")'>"+item.title+"</span><li>" +
                         "<li><span class='news_block_content'>"+item.content+"</span><li>"+
                         "<span class='head_icon'></span>"+
                         "<span class='date_time'></span>"+
@@ -647,10 +725,36 @@ function getTypeNews(pageNum,newsType) {
                         "<li><span class='news_block_date'>"+item.datetime+"<li>"+
                         "</ul></div><li>"
                     );
+                    if(!item.flag){
+                        $("#collect_"+item.id).attr('src','../static/images/uncollected.png');
+                    }
+                    else{
+                        $("#collect_"+item.id).attr('src','../static/images/collected.png');
+                    }
                 }
             })
         })
         .fail(function() {
             console.log("error")
         })
+}
+function toastError(title,message) {
+    iziToast.show({
+        class: 'test',
+        color: '#ffffff',
+        icon: 'icon-contacts',
+        title: title,
+        message: message,
+        position: 'topCenter',
+        transitionIn: 'flipInX',
+        transitionOut: 'flipOutX',
+        progressBarColor: 'rgb(0, 255, 184)',
+        image: '../static/images/error_dog.gif',
+        imageWidth: 70,
+        layout:2,
+        onClose: function(){
+            console.info('onClose');
+        },
+        iconColor: 'rgb(0, 255, 184)'
+    });
 }

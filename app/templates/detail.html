@@ -2,12 +2,14 @@
 <html lang=en>
 <head>
     <meta charset=UTF-8>
-    <title>Title</title>
+    <title>SWENNEWS</title>
     <link rel=stylesheet type=text/css href=../static/css/detail_style.css />
     <script src=../static/js/jquery-3.3.1.js></script>
     <script type=text/javascript src=../static/js/jquery.nicescroll.js></script>
     <script type=text/javascript src=../static/js/jquery.nicescroll.min.js></script>
     <script type=text/javascript src=../static/js/detail.js></script>
+    <link rel="stylesheet" href="../static/js/node_modules/izitoast/dist/css/iziToast.min.css">
+    <script src="../static/js/node_modules/izitoast/dist/js/iziToast.min.js" type="text/javascript"></script>
 </head>
 <body>
 <div class=main>
@@ -35,7 +37,7 @@
             <li class=tag_li><span class=tags_t id=tags_t_6 onmousedown=tags_t_6_click() onmouseover=tags_t_6_over() onmouseout=tags_t_6_out()>财经</span></li>
         </ul>
     </div>
-    <div class=main_in_main >
+    <div class=main_in_main onclick="comment_click()">
         <!--<ul>-->
             <!--<li><span class='news_type'>来自话题：时政</span></li>-->
             <!--<li class="head_icon_li"><span class='head_icon'></span></li>-->
@@ -45,6 +47,21 @@
             <!--<li><span class='news_title'>一百又考了一百</span><li>-->
             <!--<li><span class='news_content'>一百又考了一百/r/n一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百一百又考了一百</span><li>-->
         <!--</ul>-->
+    </div>
+    <div class="comment_block">
+        <div class="comment_main_block">
+            <ul class="comment_ul">
+                <!--<li class="comment_li">-->
+                    <!--<img src="../static/user/avatar/0.jpg" class="comment_head_icon">-->
+                    <!--<span class="comment_user_name">一百</span><br>-->
+                    <!--<span class="comment_content">你这图出的真快！</span>-->
+                <!--</li>-->
+            </ul>
+        </div>
+        <div class="comment_input">
+            <input name="comment" type="text" id="comment" placeholder="写下你的评论" class="comment_text">
+            <span class="comment_btn" onclick="comment_confirm()">评论</span>
+        </div>
     </div>
 </div>
 </body>

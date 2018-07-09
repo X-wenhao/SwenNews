@@ -137,6 +137,7 @@ return
         news_type:
         username:
         datetime:
+        flag:
     }
     2 : {
 
@@ -152,6 +153,7 @@ return
     news_type:
     username:
     datetime:
+    flag:
     comments：{
         1：{
             content：
@@ -181,6 +183,7 @@ return
         title:
         news_type:
         datetime:
+        flag:
         checked:   -1/0/1
     }
     2 : {

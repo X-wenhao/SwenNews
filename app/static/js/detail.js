@@ -1,6 +1,10 @@
 var selected=1;
 var id=-1;
 var login_flag=false;
+var extra=0;
+var extra_2=0;
+var comment_amount=0;
+var news_id=-1;
 $(document).ready(function(){
     var slide_flag=false;
     var load_flag=false;
@@ -41,6 +45,8 @@ function get_user_info() {
             {
                 login_flag=true;
                 user_id=data.id;
+                path='..'+data.avatar
+                $(".user").attr('src',path);
             }
         })
         .fail(function() {
@@ -74,15 +80,24 @@ function getNews(load_flag) {
     })
     .done(function(data) {
             console.log(data.id);
+            news_id=data.id;
             var s=replace_br(data.content);
-            extra=data.username.toString().split("\r\n\r\n").length;
-            load(load_flag,data.news_type,data.title,s,data.username,data.datetime);
+            extra=data.content.toString().split("\r\n\r\n").length;
+            var array=data.content.toString().split("\r\n\r\n")
+            for(var i=0;i<array.length;i++){
+                extra_2=extra_2+parseInt(array[i].length/40);
+            }
+            $.each(data.comments,function (index,item) {
+                comment_amount=comment_amount+1;
+
+            })
+            load(load_flag,data.news_type,data.title,s,data.username,data.datetime,data.comments);
         })
         .fail(function() {
             console.log("error")
         })
 }
-function load(load_flag,news_type,title,content,username,datetime) {
+function load(load_flag,news_type,title,content,username,datetime,comments) {
     if(!load_flag)
     {
         $(".main_in_main").append(
@@ -90,6 +105,8 @@ function load(load_flag,news_type,title,content,username,datetime) {
             "<span class='news_type'>来自话题："+news_type+"</span>" +
             "<span class='head_icon'></span>"+
             "<span class='date_time_pic'></span>"+
+            "<span class='comment_pic'onclick='comment_click()'></span>"+
+            "<span class='comment_amount' onclick='comment_click()'>"+comment_amount+"条评论</span>"+
             "<span class='user_name'>"+username+"</span>"+
             "<span class='date_time'>"+datetime+"</span>"+
             "<li><span class='news_title'>"+title+"</span><li>" +
@@ -99,16 +116,33 @@ function load(load_flag,news_type,title,content,username,datetime) {
             .animate({
             top:'-=600px'
         });
+        $.each(comments,function (index,item) {
+            $(".comment_ul").append(
+                "<li class=\"comment_li\">" +
+                " <img src="+item.avatar+" class=\"comment_head_icon\">" +
+                " <span class=\"comment_user_name\">"+item.user_name+"</span><br>" +
+                "<span class=\"comment_content\">"+item.content+"</span>" +
+                "</li>"
+            )
+        })
         //var extra=$(".news_content").text().split('<br/>').length;
         var count=$(".news_content").text().length
-        var height=137+37*(extra+count/40);
+        var height=137+37*(extra+extra_2);
         $(".date_time_pic").css('margin-top',height+27);
         $(".head_icon").css('margin-top',height+27);
+        $(".comment_pic").css('margin-top',height+27);
+        $(".comment_amount").css('margin-top',height+19);
         $(".date_time").css('margin-top',height+19);
         $(".user_name").css('margin-top',height+17);
-        $(".main_in_main").css('height',height+70);
-        $(".main").css('height',height+240);
+        // $(".main_in_main").css('height',height+70);
         load_flag=true;
+        var comment_extra=89*comment_amount;
+        var comment_height=height+116+comment_extra;
+        // $(".main_in_main").css('height',comment_height+300);
+        $(".main").css('height',comment_height+240);
+        $(".comment_btn").css('margin-top',comment_extra+50);
+        $(".comment_text").css('margin-top',comment_extra+50);
+        $(".comment_block").css('height',120+comment_extra);
     }
 }
 function load_(load_flag) {
@@ -121,7 +155,7 @@ function load_(load_flag) {
         load_flag=true;
     }
     s=replace_br($(".news_content").html());
-    //alert(s)
+    alert(s)
     $(".news_content").html(s);
     var count=$(".news_content").text().length
     var height=137+37*(count/40);
@@ -129,8 +163,8 @@ function load_(load_flag) {
     $(".head_icon").css('margin-top',height+27);
     $(".date_time").css('margin-top',height+19);
     $(".user_name").css('margin-top',height+17);
-    $(".main_in_main").css('height',height+70);
-    $(".main").css('height',height+240);
+    // $(".main_in_main").css('height',height+70);
+    // $(".main").css('height',height+240);
 }
 function newest_mouse_over() {
     if(1!=selected)
@@ -373,4 +407,70 @@ function user_center_click() {
 }
 function my_news_click() {
     window.location.href="user_center.html"
+}
+function comment_confirm() {
+    // if(-1==$(".comment_block").css('z-index')){
+    //     $(".comment_block").css('z-index',100);
+    // }
+    // else{
+    //     $(".comment_block").css('z-index',-1);
+    // }
+    if(login_flag){
+        comment();
+    }
+    else{
+        toastError('评论失败！','请先登录！');
+        var text="window.location.href=\"login.html\"";
+        setInterval(text,5000);
+    }
+    $(".comment_block").slideToggle("fast");
+}
+function comment() {
+    $.ajax({
+        url: '/SwenNews/api/v1/comment',
+        type: 'POST',
+        dataType: 'json',
+        contentType: "application/json; charset=utf-8",
+        data: JSON.stringify({"content": $(".comment_text").val(), "news_id":news_id,"user_id":user_id}),
+    })
+        .done(function(data) {
+            if (1==data.status) {
+                toastError('评论成功！','');
+            } else {
+                toastError('评论失败！','请重试！');
+            }
+        })
+        .fail(function() {
+            console.log("error")
+            toastError('评论失败！','请重试！');
+        })
+}
+function comment_click() {
+    // if(-1==$(".comment_block").css('z-index')){
+    //     $(".comment_block").css('z-index',100);
+    // }
+    // else{
+    //     $(".comment_block").css('z-index',-1);
+    // }
+    $(".comment_block").slideToggle("fast");
+}
+function toastError(title,message) {
+    iziToast.show({
+        class: 'test',
+        color: '#ffffff',
+        icon: 'icon-contacts',
+        title: title,
+        message: message,
+        position: 'topCenter',
+        transitionIn: 'flipInX',
+        transitionOut: 'flipOutX',
+        progressBarColor: 'rgb(0, 255, 184)',
+        image: '../static/images/error_dog.gif',
+        imageWidth: 70,
+        layout: 2,
+        onClose: function () {
+            console.info('onClose');
+        },
+        iconColor: 'rgb(0, 255, 184)'
+    });
 }

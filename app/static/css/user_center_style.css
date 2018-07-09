@@ -47,6 +47,8 @@ ul li{
     margin-left: 969px;
     margin-top: 28px;
     cursor: pointer;
+    width:33px;
+    height:33px;
 }
 
 
@@ -363,4 +365,5 @@ div.panel{
 .my_news_list{
     line-height: 100px;
     margin-top: 50px;
+    cursor: pointer;
 }

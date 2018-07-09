@@ -1,0 +1,105 @@
+ul li{
+    list-style-type:none;
+}
+.main{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    /*background: url("../images/BG.png");*/
+    background-size: 100%;
+}
+input::-webkit-input-placeholder{
+    color: #cfcfcf;
+}
+.main_block{
+    margin: auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    /*margin-top: 200px;*/
+    /*margin-left: 200px;*/
+    height:410px;
+    width: 411px;
+    background: url("../images/hjr.png");
+}
+.SearchKeyword_r{
+    outline:none;
+    border:0px ;
+    width: 317px;
+    color: #999;
+    font-size:15px;
+    line-height:47px;
+    background:url("../images/input.png") no-repeat;
+    height:47px;
+    padding-left:10px;
+}
+.SearchKeyword2_r{
+    outline:none;
+    border:0px ;
+    width: 317px;
+    color: #999;
+    font-size:15px;
+    line-height:47px;
+    background:url("../images/input.png") no-repeat;
+    height:47px;
+    padding-left:10px;
+}
+.SearchKeyword3{
+    outline:none;
+    border:0px ;
+    width: 317px;
+    color: #999;
+    font-size:15px;
+    line-height:47px;
+    background:url("../images/input.png") no-repeat;
+    height:47px;
+    padding-left:10px;
+ }
+.email{
+    outline:none;
+    border:0px ;
+    width: 317px;
+    color: #999;
+    font-size:15px;
+    line-height:47px;
+    background:url("../images/input.png") no-repeat;
+    height:47px;
+    padding-left:10px;
+}
+.swen{
+    margin-left: 75px;
+}
+.tijiao{
+    float:left;
+    margin:12px 0px 0px 0px;
+    height:42px;
+    width:332px;
+    border:none;
+    background:url("../images/dl.png") no-repeat;
+    font-weight:bold; text-align:center;
+    color:#fff;
+    font-size:20px;
+    cursor:pointer;
+}
+.zhuce{
+    font-size: 15px;
+    position: absolute;
+    margin-left: 100px;
+    margin-top: 30px;
+    text-align: center;
+}
+.main_block ul{
+    padding:25px 37px 0px;
+    float:left;
+    overflow:hidden;
+    width:331px;
+}
+
+.main_block ul li{
+    float:left;
+    width:100%;
+    overflow:hidden;
+    padding-bottom:12px;
+}

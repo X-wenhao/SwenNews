@@ -1,5 +1,7 @@
 var selected = 1
 var edit_flag=false;
+var current_name;
+var current_ava;
 $(document).ready(function(){
     var slide_flag=false;
     get_user_info();
@@ -37,7 +39,7 @@ function get_my_news() {
             console.log("error")
         })
 }
-function my_news_click() {
+function my_news_click(newsid) {
     var text="window.location.href=\"detail.html?id="+newsid+"\"";
     var t=setTimeout(text,500);
 }
@@ -49,7 +51,12 @@ function get_user_info() {
     })
         .done(function(data) {
             $(".name_user").text(data.username);
+            current_name=data.username;
             $(".email_user").text(data.mail);
+            $(".user_name").attr('placeholder',data.username);
+            path='..'+data.avatar;
+            current_ava=data.avatar;
+            $(".user").attr('src',path);
             $(".picture_frame").css('background-image',data.avatar);
         })
         .fail(function() {
@@ -126,8 +133,6 @@ function keep_data() {
         top:'-=1100px'
     });
     edit_flag=false;
-    var text="window.location.href=\"user_center.html\"";
-    var t=setTimeout(text,500);
     saveInfo();
 }
 
@@ -171,41 +176,77 @@ function shelter_click() {
 }
 
 function saveInfo() {
+    var refresh_flag=true;
+    if($(".user_name").val().toString()!=current_name){
+        $.ajax({
+            url: '/SwenNews/api/v1/user',
+            type: 'PUT',
+            dataType: 'json',
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify({"username": $(".user_name").val().toString()}),
+        })
+            .done(function(data) {
+                if (1==data.status) {
+                    toastError('修改用户名成功！','')
+                } else {
+                    toastError('修改用户名失败！','')
+                    refresh_flag=false;
+                }
+            })
+            .fail(function() {
+                console.log("error")
+                toastError('修改用户名失败！','')
+                refresh_flag=false;
+            })
+    }
+    var fd= new FormData();
+    fd.append("pic",document.getElementById("uploadForm").files[0]);
+    alert(fd);
     $.ajax({
-        url: '/SwenNews/api/v1/user',
+        url: '/SwenNews/api/v1/user/avatar',
         type: 'PUT',
-        dataType: 'json',
-        contentType: "application/json; charset=utf-8",
-        data: JSON.stringify({"username": $(".user_name").val()}),
+        processData: false,// 告诉jQuery不要去处理发送的数据
+        contentType: false,// 告诉jQuery不要去设置Content-Type请求头
+        cache: false,
+        data:fd,
+        //data: new FormData($("#uploadForm")[1]),
     })
         .done(function(data) {
-            if (!data.result) {
-                alert("注册成功")
+            if (1==data.status) {
+                toastError('修改头像成功！','')
             } else {
-                alert("注册失败")
+                toastError('修改头像失败！','error1')
+                refresh_flag=false;
             }
         })
         .fail(function() {
-            console.log("error")
+            toastError('修改头像失败！','error2')
+            refresh_flag=false;
         })
-
-    $.ajax({
-        url: '/SwenNews/api/v1/avatar',
-        type: 'PUT',
-        contentType: false,
-        data: new FormData($("#uploadForm")[1]),
-        processData:false
-    })
-        .done(function(data) {
-            if (!data.result) {
-                alert("保存成功")
-            } else {
-                alert("保存失败")
-            }
-        })
-        .fail(function() {
-            console.log("error")
-        })
+    if(refresh_flag){
+        // var text="window.location.href=\"user_center.html\"";
+        // setInterval(text,5000);
+    }
+}
+function toastError(title,message) {
+    iziToast.show({
+        class: 'test',
+        color: '#ffffff',
+        icon: 'icon-contacts',
+        title: title,
+        message: message,
+        position: 'topCenter',
+        transitionIn: 'flipInX',
+        transitionOut: 'flipOutX',
+        progressBarColor: 'rgb(0, 255, 184)',
+        image: '../static/images/error_cat.gif',
+        imageWidth: 70,
+        layout:2,
+        onClose: function(){
+            console.info('onClose');
+        },
+        iconColor: 'rgb(0, 255, 184)'
+    });
 }
 function logout() {
     $.ajax({

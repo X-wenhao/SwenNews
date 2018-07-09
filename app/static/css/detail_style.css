@@ -1,3 +1,4 @@
+*{margin:0}
 body{
     background: #efefef center top no-repeat;
     clear: both;
@@ -17,6 +18,9 @@ ul li{
     list-style-type: none;
     line-height: 36px;
 }
+input::-webkit-input-placeholder{
+    color: #cfcfcf;
+}
 .main{
     float: left;
     position: absolute;
@@ -33,7 +37,7 @@ ul li{
     background-color: #ffffff;
     box-shadow: 0px 3px 5px 0px
     rgba(0, 0, 0, 0.1);
-    z-index: 10;
+    z-index: 101;
 }
 .swen-news {
     float: left;
@@ -90,6 +94,8 @@ ul li{
     margin-left: 969px;
     margin-top: 28px;
     cursor: pointer;
+    width:33px;
+    height:33px;
 }
 .new{
     position: fixed;
@@ -104,10 +110,12 @@ ul li{
     top: 613px;
     margin-left: 119px;
     width: 1201px;
-    height: 900px;
+    /* height: 10px; */
+    min-height:100px;
     background: #ffffff;
     box-shadow: 0px 3px 5px 0px
     rgba(0, 0, 0, 0.1);
+    z-index: 100;
     /*background: url("../images/newsbg.png");*/
 }
 div.panel{
@@ -180,7 +188,7 @@ div.panel{
     position: absolute;
     margin-top: 147px;
     width: 972px;
-    height: 168px;
+    /* height: 168px; */
     font-family: SourceHanSansCN-Normal;
     font-size: 24px;
     font-weight: normal;
@@ -192,7 +200,7 @@ div.panel{
 .user_name{
     position: absolute;
     margin-top:27px ;
-    margin-left: 150px;
+    margin-left: 280px;
     width: 120px;
     height: 18px;
     font-family: SourceHanSansCN-Normal;
@@ -218,7 +226,7 @@ div.panel{
     color: #878787;
 }
 .head_icon{
-    margin-left: 130px;
+    margin-left: 260px;
     margin-top: 35px;
     position: absolute;
     background: url("../images/head_icon.png");
@@ -233,7 +241,29 @@ div.panel{
     height: 18px;
     background: url("../images/date_time.png");
 }
-
+.comment_pic{
+    margin-left: 145px;
+    margin-top: 29px;
+    position: absolute;
+    width: 19px;
+    height: 19px;
+    background: url("../images/comment.png");
+}
+.comment_amount{
+    position:absolute;
+    margin-left: 165px;
+    margin-top: 29px;
+    width: 200px;
+    height: 18px;
+    font-family: SourceHanSansCN-Normal;
+    font-size: 18px;
+    font-weight: normal;
+    font-stretch: normal;
+    line-height: 36px;
+    letter-spacing: 0px;
+    color: #878787;
+    cursor: pointer;
+}
 .tags{
     z-index: 1;
     display: none;
@@ -273,4 +303,89 @@ div.panel{
     float: left;
     margin-left: 15px;
     width: 130px;
+}
+.comment_block{
+    display: none;
+    position: absolute;
+    margin-top: -5px;
+    margin-left: 168px;
+    width: 1101px;
+    height: 304px;
+    background-color: #ffffff;
+    box-shadow: -2px 6px 8px 0px
+    rgba(0, 0, 0, 0.1);
+    border-radius: 3px;
+    border: solid 1px rgba(0, 0, 0, 0.19);
+    z-index: 10;
+}
+.comment_text{
+    /*position: absolute;*/
+    padding-left: 20px;
+    margin-top: 33px;
+    margin-left: 48px;
+    width: 872px;
+    height: 43px;
+    border-radius: 6px;
+    border: solid 2px #efefef;
+    font-size: 20px;
+    font-weight: normal;
+    font-stretch: normal;
+}
+.comment_btn{
+    /*position: absolute;*/
+    padding-left: 20px;
+    padding-top:11px;
+    display:inline-block;
+    margin-top: 33px;
+    margin-left: 36px;
+    width: 63px;
+    height: 40px;
+    background-color: #ff6f79;
+    border-radius: 3px;
+    font-size: 22px;
+    color: #ffffff;
+    cursor: pointer;
+}
+.comment_head_icon{
+    /*background: url("../images/create_bg.png");*/
+    /*background: url("../user/avatar/0.jpg");*/
+    /*margin-top: 50px;*/
+    width: 27px;
+    height: 27px;
+    float: left;
+}
+.comment_user_name{
+    font-size: 18px;
+    margin-left: 25px;
+    font-weight: normal;
+    font-stretch: normal;
+    line-height: 36px;
+    letter-spacing: 0px;
+    color: #5f5e5e;
+}
+.comment_content{
+    font-size: 18px;
+    font-weight: normal;
+    font-stretch: normal;
+    line-height: 36px;
+    letter-spacing: 0px;
+    color: #000000;
+}
+.comment_main_block{
+    position: absolute;
+    margin-left: 15px;
+    margin-top: 30px;
+    /*cursor: wait;*/
+    /*background: #006eb0;*/
+}
+.comment_ul{
+    margin-left: 0;
+    margin-top: 0;
+    /*background: #03329c;*/
+}
+.comment_li{
+    margin-top: 15px;
+    /*background: #4cabef;*/
+}
+.comment_input{
 }

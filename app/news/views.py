@@ -14,3 +14,8 @@ def index():
 def detail():
     return render_template('detail.html')
 
+@snews.route('/SwenNews/show.html')
+def show():
+    return render_template('show.html')
+
+

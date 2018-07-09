@@ -90,6 +90,8 @@ ul li{
     margin-left: 969px;
     margin-top: 28px;
     cursor: pointer;
+    width: 33px;
+    height: 33px;
 }
 .new{
     width:70px;
@@ -267,6 +269,7 @@ input::-webkit-input-placeholder{
     color:#333333;
     padding-left: 10px;
     font-size: 18px;
+
 }
 .news_content{
     margin-top: 36px;
@@ -401,6 +404,7 @@ input::-webkit-input-placeholder{
     line-height: 28px;
     letter-spacing: 0px;
     color: #000000;
+    cursor:pointer;
 }
 .news_block_content{
     position: absolute;
@@ -517,8 +521,17 @@ input::-webkit-input-placeholder{
     background-color: #cdcdcd;
 }
 .collect{
+    position: absolute;
     background: url("../images/uncollected.png");
+    margin-top: 24px;
     margin-left: 1023px;
     width: 29px;
     height: 29px;
+    cursor: pointer;
 }
+/*.collect{*/
+    /*position:absolute;*/
+    /*margin-top: 50px;*/
+    /*margin-left: -50px;*/
+    /*cursor: pointer;*/
+/*}*/

@@ -63,7 +63,7 @@ function register(){
     var email = $("#email").val();
     check_if_exist(username,email);
     var pwdAgain = $("#passwordAgain").val();
-    var isRight= checkUsername(username)&&checkEmail(email)&&checkPwd(password)&&checkPwdAgain(pwdAgain);
+    var isRight= checkUsername(username)&&checkEmail(email)&&checkPwd(password)&&checkPwdAgain(pwdAgain,password);
     if(isRight) {
         $.ajax({
             url: '/SwenNews/api/v1/user',

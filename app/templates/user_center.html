@@ -2,12 +2,14 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>个人中心</title>
     <link rel="stylesheet" type="text/css" href="../static/css/user_center_style.css" />
     <script src="../static/js/jquery-3.3.1.js"></script>
     <script type="text/javascript" src="../static/js/jquery.nicescroll.js"></script>
     <script type="text/javascript" src="../static/js/jquery.nicescroll.min.js"></script>
     <script type="text/javascript" src="../static/js/user_center.js"></script>
+    <link rel="stylesheet" href="../static/js/node_modules/izitoast/dist/css/iziToast.min.css">
+    <script src="../static/js/node_modules/izitoast/dist/js/iziToast.min.js" type="text/javascript"></script>
 </head>
 <body>
 <div class="main">
@@ -46,7 +48,7 @@
         <span class="edit_title">编辑资料</span>
         <form id="uploadForm" enctype="multipart/form-data">
         <input class="user_name" type="text"  placeholder="用户名" >
-        <input type="file" class="edit_pic_btn" onchange="previewHandle(this)">
+        <input type="file" name="fileName"  class="edit_pic_btn" onchange="previewHandle(this)">
         </form>
         <image src="../static/images/keep_data.png" class="keep_data_btn" onmousedown="keep_data()" ></image>
     </div>

@@ -6,6 +6,7 @@ from ..models import News, User, news_types
 from .. import db
 import random
 import os
+
 @snews.route("/SwenNews/api/v1/news", methods=['GET'])
 def news_api_news_get():
     args ={}
@@ -37,17 +38,24 @@ def news_api_news_get():
     news_list=q.limit(5).offset(5*args['page_num']).all()
     if len(news_list)==0:
         return jsonify({"status":0,'error_msg':'page out of index'}),404
-
+    flag=0
+    co=[]
+    if current_user.is_authenticated:
+        co=current_user.collections
     re={'status':1}
     for i in range(len(news_list)):
         user = User.query.filter_by(id=news_list[i].user_id).first()
+        for n in co:
+            if news_list[i]==n:
+                flag=1
         re[str(i)] = {
              'id': news_list[i].id,
              'title': news_list[i].title,
              'content':news_list[i].content[:120],
              'news_type': news_list[i].news_type,
              'username': user.username,
-             'datetime': news_list[i].date.isoformat()[:10]
+             'datetime': news_list[i].date.isoformat()[:10],
+             'flag':flag
         }
     #print(re)
     #print(jsonify(re))
@@ -69,7 +77,13 @@ def news_api_news_return(id):
         return jsonify({"status":0,"error_msg":"news not exist"}),404
     one_new.hit_count += random.randint(1,4)
     user = User.query.filter_by(id=one_new.user_id).first()
-
+    flag=0
+    co=[]
+    if current_user.is_authenticated:
+        co=current_user.collections
+    for n in co:
+        if one_new==n:
+            flag=1
     re = {
         'id': one_new.id,
         'title': one_new.title,
@@ -77,6 +91,7 @@ def news_api_news_return(id):
         'news_type': one_new.news_type,
         'username': user.username,
         'datetime': one_new.date.isoformat()[:10],
+         'flag':flag,
         'comments':{}
     }
     for i in range(len(one_new.comments.all())):

@@ -57,10 +57,37 @@ def create_app():
 def init_db():
     app=create_app()
     with app.app_context():
-        from app.models import User,News
+        from app.models import User,News,Comment
         db.create_all()
-        db.session.add(User(username='admin',password='admin'))
-        db.session.commit()
+        users_to=[
+            {
+                "username":"admin",
+                "password":"admin",
+                "mail":"admin@admin.com",
+                "confirmed":True
+            },
+            {
+                "username":"优秀的田",
+                "password":"12345678",
+                "mail":"yxdt@yxdt.com",
+                "confirmed":True
+            },
+            {
+                "username":"优秀的陈昱",
+                "password":"12345678",
+                "mail":"yxdcy@yxdcy.com",
+                "confirmed":True
+            }
+        ]
+        for u in users_to:
+            user=User(
+                username=u["username"],
+                password=u["password"],
+                mail=u["mail"],
+                confirmed=u["confirmed"]
+                            )
+            db.session.add(user)
+            db.session.commit()
     return app
 
 

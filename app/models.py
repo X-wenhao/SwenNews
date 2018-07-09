@@ -10,9 +10,9 @@ from . import db,login_manager
 
 news_types=['时政','娱乐','科技','娱乐','游戏','体育','财经']
 
-u_n_collection== db.Table('article_tag',
-    db.Column('user_id',db.Integer,db.ForeignKey('users.id'),primary_key=True),
-    db.Column('tnews_id',db.Integer,db.ForeignKey('news.id'),primary_key=True) 
+u_n_collection= db.Table('article_tag',
+    db.Column('user_id',db.Integer,db.ForeignKey('users.id')),
+    db.Column('tnews_id',db.Integer,db.ForeignKey('news.id')) 
         )
 
 class User(UserMixin, db.Model):
@@ -28,7 +28,7 @@ class User(UserMixin, db.Model):
                                 lazy='dynamic')
     comments = db.relationship('Comment', backref='user',
                                 lazy='dynamic')
-    collections=db.relationship('News',secondary= u_n_collection,backref = db.backref('users'))
+    collections=db.relationship('News',secondary= u_n_collection)
 
     def __init__(self, **kwargs):
         super(User, self).__init__(**kwargs)

@@ -191,8 +191,7 @@ return
 
 
 ###收藏相关
-
-GET /SwenNews/api/v1/collection?user_id=
+GET /SwenNews/api/v1/collection?user_id=    //返回用户收藏的所有资源
 return
 {
     1 : {

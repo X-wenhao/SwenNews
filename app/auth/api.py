@@ -3,7 +3,7 @@ from flask_login import login_user, logout_user, login_required, \
     current_user
 from . import auth
 from .. import db
-from ..models import User
+from ..models import User,News,Comment
 from ..email import send_email
 from werkzeug.utils import secure_filename
 from PIL import Image
@@ -186,3 +186,79 @@ def auth_api_mail_get(type):
 
 def allowed_file(filename):
 	return '.' in filename and filename.rsplit('.',1)[1] in ['png','jpg','jpeg']
+
+@auth.route("/SwenNews/api/v1/collection",methods=["GET"])
+@login_required
+def auth_api_collection_get():
+    if request.args.get("user_id")!=current_user.id:
+        return jsonify({"status":0}),400
+    user = current_user
+    all_news = user.collections.all()
+    lens = len(user.news.all())
+    re = {"status":1}
+    for i in range(lens):
+        re[str(i)] = {
+            'id': all_news[i].id,
+            'title': all_news[i].title,
+            'news_type': all_news[i].news_type,
+            'datetime': all_news[i].date.isoformat(),
+            'checked':all_news[i].checked
+        }
+    return jsonify(re) ,200
+
+@auth.route("/SwenNews/api/v1/collection",methods=["POST"])
+@login_required
+def auth_api_collection_post():
+    args=request.get_json()
+    re={"status":0}
+    for key in ["user_id","news_id"]:
+        if not args.get(key):
+            re['error_msg']='args error'
+            return jsonify(re),400
+    if args.get("user_id")!=current_user.id:
+        return jsonify(re),400
+    news=News.query.get("news_id")
+    if not news:
+        return jsonify(re),400
+    current_user.collections.append(news)
+    db.session.add(current_user)
+    db.session.commit()
+    return jsonify({"status":1}),200
+
+@auth.route("/SwenNews/api/v1/collection",methods=["DELETE"])
+@login_required
+def auth_api_collection_delete():
+    args=request.get_json()
+    re={"status":0}
+    for key in ["user_id","news_id"]:
+        if not args.get(key):
+            re['error_msg']='args error'
+            return jsonify(re),400
+    if args.get("user_id")!=current_user.id:
+        return jsonify(re),400
+    news=News.query.get("news_id")
+    if not news:
+        return jsonify(re),400
+    current_user.collections.remove(news)
+    db.session.add(current_user)
+    db.session.commit()
+    return jsonify({"status":1}),200
+
+@auth.route("/SwenNews/api/v1/comment",methods=["POST"])
+@login_required
+def auth_api_comment_post():
+    args=request.get_json()
+    re={"status":0}
+    for key in ["user_id","news_id","content"]:
+        if not args.get(key):
+            re['error_msg']='args error'
+            return jsonify(re),400
+    if args.get("user_id")!=current_user.id:
+        return jsonify(re),400
+    news=News.query.get("news_id")
+    if not news:
+        return jsonify(re),400
+    comment_create = Comment( content=args['content'],  user_id=current_user.id,news_id=args['news_id'])
+    db.session.add(comment_create)
+    db.session.commit()
+    return jsonify({"status":1})

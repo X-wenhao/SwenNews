@@ -5,7 +5,7 @@ from . import snews
 from ..models import News, User, news_types
 from .. import db
 import random
-
+import os
 @snews.route("/SwenNews/api/v1/news", methods=['GET'])
 def news_api_news_get():
     args ={}
@@ -76,8 +76,20 @@ def news_api_news_return(id):
         'content': one_new.content,
         'news_type': one_new.news_type,
         'username': user.username,
-        'datetime': one_new.date.isoformat()[:10]
+        'datetime': one_new.date.isoformat()[:10],
+        'comments':{}
     }
+    for i in range(len(one_new.comments.all())):
+        comment=one_new.comments.all()[i]
+        user=User.query.get(comment.user_id)
+        re['comments'][str(i)]={
+            "content":comment.content,
+            "user_name":user.username,
+            "avatar":"/static/user/avatar/"+str(user.id)+'.jpg',
+            'datetime': comment.date.isoformat()[:10]
+        }
+        if  not os.path.isfile(re['comment'][str(i)]['avatar']):    
+            re['comment'][str(i)]['avatar']="/static/user/avatar/0.jpg"
     print(re)
     return jsonify(re), 200
 
@@ -109,7 +121,7 @@ def news_api_create_news():
 @snews.route("/SwenNews/api/v1/news/list", methods=['GET'])
 @login_required
 def news_api_return_all_news():
-    user = User.query.filter_by(id=current_user.get_id()).first()
+    user = current_user
     all_news = user.news.all()
     lens = len(user.news.all())
     re = {"status":1}
@@ -119,9 +131,11 @@ def news_api_return_all_news():
             'title': all_news[i].title,
             'news_type': all_news[i].news_type,
             'datetime': all_news[i].date.isoformat(),
-            'checked':all_news[i].checked
         }
     return jsonify(re) ,200
+
+
+
 
 
 

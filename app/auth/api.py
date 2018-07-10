@@ -33,7 +33,7 @@ def auth_api_session_get():
         re['status']=0
         re['error_msg']='can not get info of current user'
         return jsonify(re),403
-    re['avatar']="/static/user/avatar/"+str(re['id'])+'.jpg'
+    re['avatar']=os.path.join(current_app.config['AVATAR_FOLDER'],str(re['id'])+'.jpg')
     if  not os.path.isfile(re['avatar']):    
         re['avatar']="/static/user/avatar/0.jpg"
     return jsonify(re),200
@@ -146,7 +146,7 @@ def auth_api_user_password_put():
     #session.remove("auth_code")
     return jsonify({"status":1}),200
 
-@auth.route("/SwenNews/api/v1/user/avatar",methods=["PUT"])
+@auth.route("/SwenNews/api/v1/user/avatar",methods=["POST"])
 @login_required
 def auth_api_user_avatar_put():
     if not current_user.is_authenticated :

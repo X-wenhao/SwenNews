@@ -152,6 +152,6 @@ def write_to_db(data):
 if __name__ == '__main__':
 
     data=get_sina()
-    write_to_db(data)
+    #write_to_db(data)
 
     

@@ -9,10 +9,8 @@ from ..models import User
 @auth.route('/unconfirmed')
 def unconfirmed():
     if current_user.is_anonymous or current_user.confirmed:
-        return 'no need'
         return redirect(url_for('main.index'))
-    return 'unconfirmed'
-    return render_template('auth/unconfirmed.html')
+    return render_template('auth/tips.html')
 
 @auth.route('/confirm/<token>')
 #@login_required
@@ -24,15 +22,14 @@ def confirm(token):
         return False 
     user=User.query.get( data.get('confirm'))
     print(user)
-    user.confirmed=1
+    user.confirmed=True
     db.session.add(user)
     db.session.commit()
     if user.confirmed:
         flash('认证成功')
-        return redirect(url_for('snews.index'))
+        return redirect(url_for('auth.login'))
     else:
-        flash('认证失败,请重新登录并认证')
-    #return redirect(url_for('auth.login')) 
+        flash('认证失败')
 
 @auth.route('/SwenNews/login.html')
 def login():
